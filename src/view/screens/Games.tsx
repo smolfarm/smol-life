@@ -1,6 +1,5 @@
 import React from 'react'
-import {Linking, ScrollView, View} from 'react-native'
-import {TouchableOpacity} from 'react-native'
+import {Linking, ScrollView, TouchableOpacity, View} from 'react-native'
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 
@@ -14,7 +13,7 @@ import {useProfileQuery} from '#/state/queries/profile'
 import {atoms as a, useTheme} from '#/alf'
 import {Button, ButtonText} from '#/components/Button'
 import * as Layout from '#/components/Layout'
-import {Text} from '#/components/Typography'
+import {Text} from '#/components/Typography' // use Typography Text
 import {UserAvatar} from '../com/util/UserAvatar'
 
 function GameListItem({
@@ -110,7 +109,24 @@ function GameListItem({
 }
 
 export function GamesScreen() {
+  type Game = (typeof gamesList)[0]
+  // grid icon item
+  const InstalledGridItem = ({game}: {game: Game}) => {
+    const {data: profile} = useProfileQuery({did: game.did})
+    return (
+      <TouchableOpacity
+        accessibilityRole="button"
+        onPress={() => Linking.openURL(game.playUrl)}
+        style={{width: '30%', padding: 8, alignItems: 'center'}}>
+        <UserAvatar type="user" size={64} avatar={profile?.avatar} />
+        <Text style={[a.text_xs, a.text_center, a.mt_md]} numberOfLines={1}>
+          {game.title}
+        </Text>
+      </TouchableOpacity>
+    )
+  }
   const {_} = useLingui()
+  const theme = useTheme()
   // installed state
   const {data: installedRecords = []} = useInstalledRecordsQuery()
   const [tab, setTab] = React.useState<'installed' | 'directory'>('directory')
@@ -147,21 +163,39 @@ export function GamesScreen() {
           </Layout.Header.Content>
         </Layout.Header.Outer>
         {/* Tab bar */}
-        <View style={[a.flex_row, a.justify_center, a.gap_md, a.mb_md]}>
-          <Button
-            variant={tab === 'installed' ? 'solid' : 'outline'}
-            label={_(msg`Installed`)}
-            size="small"
+        <View
+          style={[
+            a.flex_row,
+            {borderBottomWidth: 1, borderColor: theme.palette.contrast_200},
+          ]}>
+          <TouchableOpacity
+            accessibilityRole="button"
+            style={[
+              {flex: 1, alignItems: 'center', paddingVertical: 8},
+              tab === 'installed' && {
+                borderBottomWidth: 2,
+                borderColor: theme.palette.primary_500,
+              },
+            ]}
             onPress={() => setTab('installed')}>
-            <ButtonText>{_(msg`Installed`)}</ButtonText>
-          </Button>
-          <Button
-            variant={tab === 'directory' ? 'solid' : 'outline'}
-            label={_(msg`Directory`)}
-            size="small"
+            <Text style={[a.text_md, tab === 'installed' && a.font_bold]}>
+              {_(msg`Installed`)}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            accessibilityRole="button"
+            style={[
+              {flex: 1, alignItems: 'center', paddingVertical: 8},
+              tab === 'directory' && {
+                borderBottomWidth: 2,
+                borderColor: theme.palette.primary_500,
+              },
+            ]}
             onPress={() => setTab('directory')}>
-            <ButtonText>{_(msg`Directory`)}</ButtonText>
-          </Button>
+            <Text style={[a.text_md, tab === 'directory' && a.font_bold]}>
+              {_(msg`Directory`)}
+            </Text>
+          </TouchableOpacity>
         </View>
         {tab === 'directory' ? (
           <View
@@ -193,13 +227,7 @@ export function GamesScreen() {
             ]}>
             {installedGames.map(game => (
               <View key={game.playUrl} style={{width: '45%', margin: 8}}>
-                <GameListItem
-                  title={game.title}
-                  description={game.description}
-                  accountHandle={game.accountHandle}
-                  did={game.did}
-                  playUrl={game.playUrl}
-                />
+                <InstalledGridItem game={game} />
               </View>
             ))}
           </ScrollView>
