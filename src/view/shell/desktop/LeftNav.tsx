@@ -655,24 +655,6 @@ export function DesktopLeftNav() {
             }
             label={_(msg`Notifications`)}
           />
-          <NavItem
-            href="/games"
-            icon={
-              <GameController
-                style={pal.text}
-                aria-hidden={true}
-                width={NAV_ICON_WIDTH}
-              />
-            }
-            iconFilled={
-              <GameController
-                style={pal.text}
-                aria-hidden={true}
-                width={NAV_ICON_WIDTH}
-              />
-            }
-            label={_(msg`Games`)}
-          />
           <ChatNavItem />
           <NavItem
             href="/feeds"
@@ -719,6 +701,24 @@ export function DesktopLeftNav() {
               <App style={pal.text} aria-hidden={true} width={NAV_ICON_WIDTH} />
             }
             label={_(msg`Apps`)}
+          />
+          <NavItem
+            href="/games"
+            icon={
+              <GameController
+                style={pal.text}
+                aria-hidden={true}
+                width={NAV_ICON_WIDTH}
+              />
+            }
+            iconFilled={
+              <GameController
+                style={pal.text}
+                aria-hidden={true}
+                width={NAV_ICON_WIDTH}
+              />
+            }
+            label={_(msg`Games`)}
           />
           <NavItem
             href={currentAccount ? makeProfileLink(currentAccount) : '/'}
