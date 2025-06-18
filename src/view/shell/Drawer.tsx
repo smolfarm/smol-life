@@ -31,6 +31,7 @@ import {
   Bell_Stroke2_Corner0_Rounded as Bell,
 } from '#/components/icons/Bell'
 import {BulletList_Stroke2_Corner0_Rounded as List} from '#/components/icons/BulletList'
+import {FloppyDisk_Stroke2_Corner0_Rounded as App} from '#/components/icons/FloppyDisk'
 import {GameController_Stroke2_Corner0_Rounded as GameController} from '#/components/icons/GameController'
 import {
   Hashtag_Filled_Corner0_Rounded as HashtagFilled,
@@ -155,6 +156,7 @@ let DrawerContent = ({}: React.PropsWithoutRef<{}>): React.ReactNode => {
     isAtMyProfile,
     isAtMessages,
     isAtGames,
+    isAtApps,
   } = useNavigationTabState()
   const {hasSession, currentAccount} = useSession()
 
@@ -169,7 +171,8 @@ let DrawerContent = ({}: React.PropsWithoutRef<{}>): React.ReactNode => {
         | 'Messages'
         | 'Notifications'
         | 'MyProfile'
-        | 'Games',
+        | 'Games'
+        | 'Apps',
     ) => {
       const state = navigation.getState()
       setDrawerOpen(false)
@@ -221,6 +224,8 @@ let DrawerContent = ({}: React.PropsWithoutRef<{}>): React.ReactNode => {
     () => onPressTab('Messages'),
     [onPressTab],
   )
+
+  const onPressApps = React.useCallback(() => onPressTab('Apps'), [onPressTab])
 
   const onPressGames = React.useCallback(
     () => onPressTab('Games'),
@@ -308,6 +313,7 @@ let DrawerContent = ({}: React.PropsWithoutRef<{}>): React.ReactNode => {
             />
             <FeedsMenuItem isActive={isAtFeeds} onPress={onPressMyFeeds} />
             <ListsMenuItem onPress={onPressLists} />
+            <AppsMenuItem isActive={isAtApps} onPress={onPressApps} />
             <ProfileMenuItem
               isActive={isAtMyProfile}
               onPress={onPressProfile}
@@ -475,6 +481,32 @@ let GamesMenuItem = ({
   )
 }
 GamesMenuItem = React.memo(GamesMenuItem)
+
+let AppsMenuItem = ({
+  isActive,
+  onPress,
+}: {
+  isActive: boolean
+  onPress: () => void
+}): React.ReactNode => {
+  const {_} = useLingui()
+  const t = useTheme()
+  return (
+    <MenuItem
+      icon={
+        isActive ? (
+          <App style={[t.atoms.text]} width={iconWidth} />
+        ) : (
+          <App style={[t.atoms.text]} width={iconWidth} />
+        )
+      }
+      label={_(msg`Apps`)}
+      bold={isActive}
+      onPress={onPress}
+    />
+  )
+}
+AppsMenuItem = React.memo(AppsMenuItem)
 
 let ChatMenuItem = ({
   isActive,

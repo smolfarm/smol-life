@@ -47,6 +47,7 @@ import {
 } from '#/components/icons/BulletList'
 import {DotGrid_Stroke2_Corner0_Rounded as EllipsisIcon} from '#/components/icons/DotGrid'
 import {EditBig_Stroke2_Corner0_Rounded as EditBig} from '#/components/icons/EditBig'
+import {FloppyDisk_Stroke2_Corner0_Rounded as App} from '#/components/icons/FloppyDisk'
 import {GameController_Stroke2_Corner0_Rounded as GameController} from '#/components/icons/GameController'
 import {
   Hashtag_Filled_Corner0_Rounded as HashtagFilled,
@@ -708,6 +709,16 @@ export function DesktopLeftNav() {
               />
             }
             label={_(msg`Lists`)}
+          />
+          <NavItem
+            href="/apps"
+            icon={
+              <App style={pal.text} aria-hidden={true} width={NAV_ICON_WIDTH} />
+            }
+            iconFilled={
+              <App style={pal.text} aria-hidden={true} width={NAV_ICON_WIDTH} />
+            }
+            label={_(msg`Apps`)}
           />
           <NavItem
             href={currentAccount ? makeProfileLink(currentAccount) : '/'}

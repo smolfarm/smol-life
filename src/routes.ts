@@ -91,4 +91,5 @@ export const router = new Router<AllNavigatableRoutes>({
 
   // smol.life custom
   Games: '/games',
+  Apps: '/apps',
 })

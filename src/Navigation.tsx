@@ -39,6 +39,7 @@ import {
   shouldRequestEmailConfirmation,
   snoozeEmailConfirmationPrompt,
 } from '#/state/shell/reminders'
+import {AppsScreen} from '#/view/screens/Apps'
 import {CommunityGuidelinesScreen} from '#/view/screens/CommunityGuidelines'
 import {CopyrightPolicyScreen} from '#/view/screens/CopyrightPolicy'
 import {DebugModScreen} from '#/view/screens/DebugMod'
@@ -158,6 +159,11 @@ function commonScreens(Stack: typeof Flat, unreadCountLabel?: string) {
         name="Games"
         component={GamesScreen}
         options={{title: title(msg`Games`), requireAuth: true}}
+      />
+      <Stack.Screen
+        name="Apps"
+        component={AppsScreen}
+        options={{title: title(msg`Apps`), requireAuth: true}}
       />
       <Stack.Screen
         name="Moderation"
