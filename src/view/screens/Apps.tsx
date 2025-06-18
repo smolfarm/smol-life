@@ -131,7 +131,7 @@ export function AppsScreen() {
   const theme = useTheme()
   // installed state
   const {data: installedRecords = []} = useInstalledRecordsQuery()
-  const [tab, setTab] = React.useState<'installed' | 'directory'>('directory')
+  const [tab, setTab] = React.useState<'installed' | 'directory'>('installed')
   // static app directory
   const apps = [
     {
