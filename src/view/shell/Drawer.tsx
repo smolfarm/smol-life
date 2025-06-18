@@ -305,7 +305,6 @@ let DrawerContent = ({}: React.PropsWithoutRef<{}>): React.ReactNode => {
           <>
             <SearchMenuItem isActive={isAtSearch} onPress={onPressSearch} />
             <HomeMenuItem isActive={isAtHome} onPress={onPressHome} />
-            <GamesMenuItem isActive={isAtGames} onPress={onPressGames} />
             <ChatMenuItem isActive={isAtMessages} onPress={onPressMessages} />
             <NotificationsMenuItem
               isActive={isAtNotifications}
@@ -314,6 +313,7 @@ let DrawerContent = ({}: React.PropsWithoutRef<{}>): React.ReactNode => {
             <FeedsMenuItem isActive={isAtFeeds} onPress={onPressMyFeeds} />
             <ListsMenuItem onPress={onPressLists} />
             <AppsMenuItem isActive={isAtApps} onPress={onPressApps} />
+            <GamesMenuItem isActive={isAtGames} onPress={onPressGames} />
             <ProfileMenuItem
               isActive={isAtMyProfile}
               onPress={onPressProfile}

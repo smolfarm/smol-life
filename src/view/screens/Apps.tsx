@@ -1,6 +1,5 @@
 import React from 'react'
-import {Linking, ScrollView, View} from 'react-native'
-import {TouchableOpacity} from 'react-native'
+import {Linking, ScrollView, TouchableOpacity, View} from 'react-native'
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 
@@ -111,7 +110,25 @@ function AppListItem({
 }
 
 export function AppsScreen() {
+  type App = (typeof apps)[0]
+  // grid icon item
+  const InstalledGridItem = ({app}: {app: App}) => {
+    const {data: profile} = useProfileQuery({did: app.did})
+    return (
+      <TouchableOpacity
+        accessibilityRole="button"
+        onPress={() => Linking.openURL(app.playUrl)}
+        style={{width: '30%', padding: 8, alignItems: 'center'}}>
+        <UserAvatar type="user" size={64} avatar={profile?.avatar} />
+        <Text style={[a.text_xs, a.text_center, a.mt_md]} numberOfLines={1}>
+          {app.title}
+        </Text>
+      </TouchableOpacity>
+    )
+  }
+
   const {_} = useLingui()
+  const theme = useTheme()
   // installed state
   const {data: installedRecords = []} = useInstalledRecordsQuery()
   const [tab, setTab] = React.useState<'installed' | 'directory'>('directory')
@@ -142,21 +159,39 @@ export function AppsScreen() {
           </Layout.Header.Content>
         </Layout.Header.Outer>
         {/* Tab bar */}
-        <View style={[a.flex_row, a.justify_center, a.gap_md, a.mb_md]}>
-          <Button
-            variant={tab === 'installed' ? 'solid' : 'outline'}
-            label={_(msg`Installed`)}
-            size="small"
+        <View
+          style={[
+            a.flex_row,
+            {borderBottomWidth: 1, borderColor: theme.palette.contrast_200},
+          ]}>
+          <TouchableOpacity
+            accessibilityRole="button"
+            style={[
+              {flex: 1, alignItems: 'center', paddingVertical: 8},
+              tab === 'installed' && {
+                borderBottomWidth: 2,
+                borderColor: theme.palette.primary_500,
+              },
+            ]}
             onPress={() => setTab('installed')}>
-            <ButtonText>{_(msg`Installed`)}</ButtonText>
-          </Button>
-          <Button
-            variant={tab === 'directory' ? 'solid' : 'outline'}
-            label={_(msg`Directory`)}
-            size="small"
+            <Text style={[a.text_md, tab === 'installed' && a.font_bold]}>
+              {_(msg`Installed`)}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            accessibilityRole="button"
+            style={[
+              {flex: 1, alignItems: 'center', paddingVertical: 8},
+              tab === 'directory' && {
+                borderBottomWidth: 2,
+                borderColor: theme.palette.primary_500,
+              },
+            ]}
             onPress={() => setTab('directory')}>
-            <ButtonText>{_(msg`Directory`)}</ButtonText>
-          </Button>
+            <Text style={[a.text_md, tab === 'directory' && a.font_bold]}>
+              {_(msg`Directory`)}
+            </Text>
+          </TouchableOpacity>
         </View>
         {tab === 'directory' ? (
           <View
@@ -188,13 +223,7 @@ export function AppsScreen() {
             ]}>
             {installedApps.map(app => (
               <View style={{width: '45%', margin: 8}} key={app.playUrl}>
-                <AppListItem
-                  title={app.title}
-                  description={app.description}
-                  accountHandle={app.accountHandle}
-                  did={app.did}
-                  playUrl={app.playUrl}
-                />
+                <InstalledGridItem app={app} />
               </View>
             ))}
           </ScrollView>
