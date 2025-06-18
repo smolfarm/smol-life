@@ -5,6 +5,5 @@ This is a custom build of [Bluesky](https://github.com/bluesky-social/social-app
 ## Features
 
 * Cool purple theme
-* Games page (with [2048.blue](https://2048.blue) and [Skyrdle](https://skyrdle.com))
-* Apps page (with [Linkat.blue](https://linkat.blue))
-* Links tab on profile (powered by [Linkat.blue](https://linkat.blue))
+* Games & Apps pages that extend your AT Proto experience
+* Profile integration with [Linkat.blue](https://linkat.blue)
