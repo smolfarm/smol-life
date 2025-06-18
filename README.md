@@ -5,5 +5,5 @@ This is a custom build of [Bluesky](https://github.com/bluesky-social/social-app
 ## Features
 
 * Cool purple theme
-* Games page
+* Games page (with [2048.blue](https://2048.blue) and [Skyrdle](https://skyrdle.com))
 * Links tab on profile (powered by [Linkat.blue](https://linkat.blue))
