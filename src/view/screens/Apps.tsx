@@ -212,6 +212,18 @@ export function AppsScreen() {
               />
             ))}
           </View>
+        ) : installedApps.length === 0 ? (
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              padding: 16,
+            }}>
+            <Text>
+              <Trans>No apps installed</Trans>
+            </Text>
+          </View>
         ) : (
           <ScrollView
             contentContainerStyle={[

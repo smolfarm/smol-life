@@ -216,6 +216,18 @@ export function GamesScreen() {
               />
             ))}
           </View>
+        ) : installedGames.length === 0 ? (
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              padding: 16,
+            }}>
+            <Text>
+              <Trans>No games installed</Trans>
+            </Text>
+          </View>
         ) : (
           <ScrollView
             contentContainerStyle={[
