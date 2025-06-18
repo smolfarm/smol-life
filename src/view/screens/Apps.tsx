@@ -116,7 +116,7 @@ export function AppsScreen() {
           ]}>
           <AppListItem
             title="linkat.blue"
-            description="Tree of links stored in your PDS. Also displays on smol life profiles."
+            description="Tree of links stored in your PDS. Natively displays in smol life profiles."
             accountHandle="linkat.blue"
             did="did:plc:thpg3rkgfslxsgeekhkxgdyu"
             playUrl="https://linkat.blue"
