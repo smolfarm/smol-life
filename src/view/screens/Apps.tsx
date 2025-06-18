@@ -5,13 +5,17 @@ import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 
 import {useNavigationDeduped} from '#/lib/hooks/useNavigationDeduped'
+import {
+  useInstalledRecordsQuery,
+  useInstallMutation,
+  useUninstallMutation,
+} from '#/state/queries/installed'
 import {useProfileQuery} from '#/state/queries/profile'
 import {atoms as a, useTheme} from '#/alf'
 import {Button, ButtonText} from '#/components/Button'
 //import {Divider} from '#/components/Divider'
 import * as Layout from '#/components/Layout'
 import {Text} from '#/components/Typography'
-import {GameFollowButton} from '../com/profile/GameFollowButton'
 import {UserAvatar} from '../com/util/UserAvatar'
 
 function AppListItem({
@@ -31,6 +35,11 @@ function AppListItem({
   const {_} = useLingui()
   const {data: profile} = useProfileQuery({did})
   const navigation = useNavigationDeduped()
+  // install state hooks
+  const {data: installedRecords = []} = useInstalledRecordsQuery()
+  const installMutation = useInstallMutation()
+  const uninstallMutation = useUninstallMutation()
+  const isInstalled = installedRecords.some(r => r.uri === playUrl)
 
   const goToProfile = React.useCallback(() => {
     if (profile?.handle) {
@@ -80,13 +89,21 @@ function AppListItem({
             style={[{paddingHorizontal: 16, borderRadius: 8}]}>
             <ButtonText>{_(msg`Use`)}</ButtonText>
           </Button>
-          {profile && (
-            <GameFollowButton
-              profile={profile}
-              style={[{paddingHorizontal: 16, borderRadius: 8}]}
-              size="small"
-            />
-          )}
+          <Button
+            variant="solid"
+            label={_(msg`${isInstalled ? 'Uninstall' : 'Install'}`)}
+            color="primary"
+            onPress={() =>
+              isInstalled
+                ? uninstallMutation.mutate({rkey: accountHandle})
+                : installMutation.mutate({rkey: accountHandle, uri: playUrl})
+            }
+            size="small"
+            style={[{paddingHorizontal: 16, borderRadius: 8}]}>
+            <ButtonText>
+              {_(msg`${isInstalled ? 'Uninstall' : 'Install'}`)}
+            </ButtonText>
+          </Button>
         </View>
       </View>
     </View>
