@@ -13,6 +13,8 @@ export function useNavigationTabState() {
         getTabState(state, 'Notifications') !== TabState.Outside,
       isAtMyProfile: getTabState(state, 'MyProfile') !== TabState.Outside,
       isAtMessages: getTabState(state, 'Messages') !== TabState.Outside,
+      isAtGames: getTabState(state, 'Games') !== TabState.Outside,
+      isAtApps: getTabState(state, 'Apps') !== TabState.Outside,
     }
 
     if (
@@ -21,7 +23,9 @@ export function useNavigationTabState() {
       !res.isAtFeeds &&
       !res.isAtNotifications &&
       !res.isAtMyProfile &&
-      !res.isAtMessages
+      !res.isAtMessages &&
+      !res.isAtGames &&
+      !res.isAtApps
     ) {
       // HACK for some reason useNavigationState will give us pre-hydration results
       //      and not update after, so we force isAtHome if all came back false

@@ -83,6 +83,7 @@ export type CommonNavigatorParams = {
 
   /* smol.life custom */
   Games: undefined
+  Apps: undefined
 }
 
 export type BottomTabNavigatorParams = CommonNavigatorParams & {

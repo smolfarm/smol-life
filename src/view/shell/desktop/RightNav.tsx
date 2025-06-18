@@ -105,6 +105,18 @@ export function DesktopRightNav({routeName}: {routeName: string}) {
         </Text>
       )}
 
+      <Text style={[a.leading_snug, t.atoms.text_contrast_low]}>
+        <InlineLinkText
+          to="https://smol.life/profile/smol.life"
+          label={_(msg`smol life`)}>
+          <Trans>smol life</Trans>
+        </InlineLinkText>
+        {' by '}
+        <InlineLinkText to="https://smol.farm" label={_(msg`smol farm`)}>
+          <Trans>smol farm</Trans>
+        </InlineLinkText>
+      </Text>
+
       {!hasSession && leftNavMinimal && (
         <View style={[a.w_full, {height: 32}]}>
           <AppLanguageDropdown />

@@ -31,6 +31,8 @@ import {
   Bell_Stroke2_Corner0_Rounded as Bell,
 } from '#/components/icons/Bell'
 import {BulletList_Stroke2_Corner0_Rounded as List} from '#/components/icons/BulletList'
+import {FloppyDisk_Stroke2_Corner0_Rounded as App} from '#/components/icons/FloppyDisk'
+import {GameController_Stroke2_Corner0_Rounded as GameController} from '#/components/icons/GameController'
 import {
   Hashtag_Filled_Corner0_Rounded as HashtagFilled,
   Hashtag_Stroke2_Corner0_Rounded as Hashtag,
@@ -153,6 +155,8 @@ let DrawerContent = ({}: React.PropsWithoutRef<{}>): React.ReactNode => {
     isAtNotifications,
     isAtMyProfile,
     isAtMessages,
+    isAtGames,
+    isAtApps,
   } = useNavigationTabState()
   const {hasSession, currentAccount} = useSession()
 
@@ -160,7 +164,16 @@ let DrawerContent = ({}: React.PropsWithoutRef<{}>): React.ReactNode => {
   // =
 
   const onPressTab = React.useCallback(
-    (tab: 'Home' | 'Search' | 'Messages' | 'Notifications' | 'MyProfile') => {
+    (
+      tab:
+        | 'Home'
+        | 'Search'
+        | 'Messages'
+        | 'Notifications'
+        | 'MyProfile'
+        | 'Games'
+        | 'Apps',
+    ) => {
       const state = navigation.getState()
       setDrawerOpen(false)
       if (isWeb) {
@@ -209,6 +222,13 @@ let DrawerContent = ({}: React.PropsWithoutRef<{}>): React.ReactNode => {
 
   const onPressMessages = React.useCallback(
     () => onPressTab('Messages'),
+    [onPressTab],
+  )
+
+  const onPressApps = React.useCallback(() => onPressTab('Apps'), [onPressTab])
+
+  const onPressGames = React.useCallback(
+    () => onPressTab('Games'),
     [onPressTab],
   )
 
@@ -285,6 +305,7 @@ let DrawerContent = ({}: React.PropsWithoutRef<{}>): React.ReactNode => {
           <>
             <SearchMenuItem isActive={isAtSearch} onPress={onPressSearch} />
             <HomeMenuItem isActive={isAtHome} onPress={onPressHome} />
+            <GamesMenuItem isActive={isAtGames} onPress={onPressGames} />
             <ChatMenuItem isActive={isAtMessages} onPress={onPressMessages} />
             <NotificationsMenuItem
               isActive={isAtNotifications}
@@ -292,6 +313,7 @@ let DrawerContent = ({}: React.PropsWithoutRef<{}>): React.ReactNode => {
             />
             <FeedsMenuItem isActive={isAtFeeds} onPress={onPressMyFeeds} />
             <ListsMenuItem onPress={onPressLists} />
+            <AppsMenuItem isActive={isAtApps} onPress={onPressApps} />
             <ProfileMenuItem
               isActive={isAtMyProfile}
               onPress={onPressProfile}
@@ -433,6 +455,58 @@ let HomeMenuItem = ({
   )
 }
 HomeMenuItem = React.memo(HomeMenuItem)
+
+let GamesMenuItem = ({
+  isActive,
+  onPress,
+}: {
+  isActive: boolean
+  onPress: () => void
+}): React.ReactNode => {
+  const {_} = useLingui()
+  const t = useTheme()
+  return (
+    <MenuItem
+      icon={
+        isActive ? (
+          <GameController style={[t.atoms.text]} width={iconWidth} />
+        ) : (
+          <GameController style={[t.atoms.text]} width={iconWidth} />
+        )
+      }
+      label={_(msg`Games`)}
+      bold={isActive}
+      onPress={onPress}
+    />
+  )
+}
+GamesMenuItem = React.memo(GamesMenuItem)
+
+let AppsMenuItem = ({
+  isActive,
+  onPress,
+}: {
+  isActive: boolean
+  onPress: () => void
+}): React.ReactNode => {
+  const {_} = useLingui()
+  const t = useTheme()
+  return (
+    <MenuItem
+      icon={
+        isActive ? (
+          <App style={[t.atoms.text]} width={iconWidth} />
+        ) : (
+          <App style={[t.atoms.text]} width={iconWidth} />
+        )
+      }
+      label={_(msg`Apps`)}
+      bold={isActive}
+      onPress={onPress}
+    />
+  )
+}
+AppsMenuItem = React.memo(AppsMenuItem)
 
 let ChatMenuItem = ({
   isActive,
