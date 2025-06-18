@@ -1,5 +1,5 @@
 import React from 'react'
-import {Linking, View} from 'react-native'
+import {Linking, ScrollView, View} from 'react-native'
 import {TouchableOpacity} from 'react-native'
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
@@ -112,6 +112,23 @@ function AppListItem({
 
 export function AppsScreen() {
   const {_} = useLingui()
+  // installed state
+  const {data: installedRecords = []} = useInstalledRecordsQuery()
+  const [tab, setTab] = React.useState<'installed' | 'directory'>('directory')
+  // static app directory
+  const apps = [
+    {
+      title: 'linkat.blue',
+      description:
+        'Tree of links stored in your PDS. Natively displays in smol life profiles.',
+      accountHandle: 'linkat.blue',
+      did: 'did:plc:thpg3rkgfslxsgeekhkxgdyu',
+      playUrl: 'https://linkat.blue',
+    },
+  ]
+  const installedApps = apps.filter(app =>
+    installedRecords.some(r => r.uri === app.playUrl),
+  )
 
   return (
     <Layout.Screen testID="AppsScreen">
@@ -124,21 +141,64 @@ export function AppsScreen() {
             </Layout.Header.TitleText>
           </Layout.Header.Content>
         </Layout.Header.Outer>
-        <View
-          style={[
-            a.pt_lg,
-            a.pb_xl,
-            a.gap_lg,
-            {width: '100%', paddingHorizontal: 16},
-          ]}>
-          <AppListItem
-            title="linkat.blue"
-            description="Tree of links stored in your PDS. Natively displays in smol life profiles."
-            accountHandle="linkat.blue"
-            did="did:plc:thpg3rkgfslxsgeekhkxgdyu"
-            playUrl="https://linkat.blue"
-          />
+        {/* Tab bar */}
+        <View style={[a.flex_row, a.justify_center, a.gap_md, a.mb_md]}>
+          <Button
+            variant={tab === 'installed' ? 'solid' : 'outline'}
+            label={_(msg`Installed`)}
+            size="small"
+            onPress={() => setTab('installed')}>
+            <ButtonText>{_(msg`Installed`)}</ButtonText>
+          </Button>
+          <Button
+            variant={tab === 'directory' ? 'solid' : 'outline'}
+            label={_(msg`Directory`)}
+            size="small"
+            onPress={() => setTab('directory')}>
+            <ButtonText>{_(msg`Directory`)}</ButtonText>
+          </Button>
         </View>
+        {tab === 'directory' ? (
+          <View
+            style={[
+              a.pt_lg,
+              a.pb_xl,
+              a.gap_lg,
+              {width: '100%', paddingHorizontal: 16},
+            ]}>
+            {apps.map(app => (
+              <AppListItem
+                key={app.playUrl}
+                title={app.title}
+                description={app.description}
+                accountHandle={app.accountHandle}
+                did={app.did}
+                playUrl={app.playUrl}
+              />
+            ))}
+          </View>
+        ) : (
+          <ScrollView
+            contentContainerStyle={[
+              a.flex_row,
+              a.flex_wrap,
+              a.justify_center,
+              a.gap_lg,
+              {paddingHorizontal: 16},
+            ]}>
+            {installedApps.map(app => (
+              <View style={{width: '45%', margin: 8}} key={app.playUrl}>
+                <AppListItem
+                  title={app.title}
+                  description={app.description}
+                  accountHandle={app.accountHandle}
+                  did={app.did}
+                  playUrl={app.playUrl}
+                />
+              </View>
+            ))}
+          </ScrollView>
+        )}
       </Layout.Center>
     </Layout.Screen>
   )
