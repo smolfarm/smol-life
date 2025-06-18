@@ -1,21 +1,23 @@
 import React from 'react'
 import {Platform} from 'react-native'
-import {AppState, AppStateStatus} from 'react-native'
+import {AppState, type AppStateStatus} from 'react-native'
 import {Statsig, StatsigProvider} from 'statsig-react-native-expo'
 
 import {BUNDLE_DATE, BUNDLE_IDENTIFIER, IS_TESTFLIGHT} from '#/lib/app-info'
 import {logger} from '#/logger'
-import {MetricEvents} from '#/logger/metrics'
+import {type MetricEvents} from '#/logger/metrics'
 import {isWeb} from '#/platform/detection'
 import * as persisted from '#/state/persisted'
 import {useSession} from '../../state/session'
 import {timeout} from '../async/timeout'
 import {useNonReactiveCallback} from '../hooks/useNonReactiveCallback'
-import {Gate} from './gates'
+import {type Gate} from './gates'
+
+const DISABLE_STATSIG = true
 
 const SDK_KEY = 'client-SXJakO39w9vIhl3D44u8UupyzFl4oZ2qPIkjwcvuPsV'
 
-export const initPromise = initialize()
+export const initPromise = DISABLE_STATSIG ? Promise.resolve() : initialize()
 
 type StatsigUser = {
   userID: string | undefined
@@ -244,6 +246,9 @@ export async function tryFetchGates(
   did: string | undefined,
   strategy: 'prefer-low-latency' | 'prefer-fresh-gates',
 ) {
+  if (DISABLE_STATSIG) {
+    return
+  }
   try {
     let timeoutMs = 250 // Don't block the UI if we can't do this fast.
     if (strategy === 'prefer-fresh-gates') {
@@ -263,6 +268,9 @@ export async function tryFetchGates(
 }
 
 export function initialize() {
+  if (DISABLE_STATSIG) {
+    return Promise.resolve()
+  }
   return Statsig.initialize(SDK_KEY, null, createStatsigOptions([]))
 }
 
@@ -306,6 +314,10 @@ export function Provider({children}: {children: React.ReactNode}) {
     const id = setInterval(handleIntervalTick, 60e3 /* 1 min */)
     return () => clearInterval(id)
   }, [handleIntervalTick])
+
+  if (DISABLE_STATSIG) {
+    return <GateCache.Provider value={gateCache}>{children}</GateCache.Provider>
+  }
 
   return (
     <GateCache.Provider value={gateCache}>
