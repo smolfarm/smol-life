@@ -85,7 +85,7 @@ export function Inner({
 
     const newPreference = {
       ...preference,
-      filter: change,
+      include: change,
     } satisfies typeof preference
 
     mutate({
@@ -98,7 +98,7 @@ export function Inner({
     <View style={[a.px_xl, a.pt_md, a.gap_sm]}>
       <Toggle.Group
         type="checkbox"
-        label={_(`Select your preferred notification channels`)}
+        label={_(msg`Select your preferred notification channels`)}
         values={channels}
         onChange={onChangeChannels}>
         <View style={[a.gap_sm]}>
@@ -138,14 +138,16 @@ export function Inner({
           )}
         </View>
       </Toggle.Group>
-      {'filter' in preference && (
+      {'include' in preference && (
         <>
           <Divider />
-          <Text style={[a.font_bold, a.text_md]}>From</Text>
+          <Text style={[a.font_bold, a.text_md]}>
+            <Trans>From</Trans>
+          </Text>
           <Toggle.Group
             type="radio"
-            label={_('Filter who you receive notifications from')}
-            values={[preference.filter]}
+            label={_(msg`Filter who you receive notifications from`)}
+            values={[preference.include]}
             onChange={onChangeFilter}
             disabled={channels.length === 0}>
             <View style={[a.gap_sm]}>

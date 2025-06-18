@@ -118,6 +118,28 @@ export function NotificationSettingsScreen({}: Props) {
           )}
           <View style={[a.gap_sm]}>
             <SettingsList.LinkItem
+              label={_(msg`Settings for like notifications`)}
+              to={{screen: 'LikeNotificationSettings'}}
+              contentContainerStyle={[a.align_start]}>
+              <SettingsList.ItemIcon icon={HeartIcon} />
+              <ItemTextWithSubtitle
+                titleText={<Trans>Likes</Trans>}
+                subtitleText={<SettingPreview preference={settings?.like} />}
+                showSkeleton={!settings}
+              />
+            </SettingsList.LinkItem>
+            <SettingsList.LinkItem
+              label={_(msg`Settings for new follower notifications`)}
+              to={{screen: 'NewFollowerNotificationSettings'}}
+              contentContainerStyle={[a.align_start]}>
+              <SettingsList.ItemIcon icon={PersonPlusIcon} />
+              <ItemTextWithSubtitle
+                titleText={<Trans>New followers</Trans>}
+                subtitleText={<SettingPreview preference={settings?.follow} />}
+                showSkeleton={!settings}
+              />
+            </SettingsList.LinkItem>
+            <SettingsList.LinkItem
               label={_(msg`Settings for reply notifications`)}
               to={{screen: 'ReplyNotificationSettings'}}
               contentContainerStyle={[a.align_start]}>
@@ -151,17 +173,6 @@ export function NotificationSettingsScreen({}: Props) {
               />
             </SettingsList.LinkItem>
             <SettingsList.LinkItem
-              label={_(msg`Settings for like notifications`)}
-              to={{screen: 'LikeNotificationSettings'}}
-              contentContainerStyle={[a.align_start]}>
-              <SettingsList.ItemIcon icon={HeartIcon} />
-              <ItemTextWithSubtitle
-                titleText={<Trans>Likes</Trans>}
-                subtitleText={<SettingPreview preference={settings?.like} />}
-                showSkeleton={!settings}
-              />
-            </SettingsList.LinkItem>
-            <SettingsList.LinkItem
               label={_(msg`Settings for repost notifications`)}
               to={{screen: 'RepostNotificationSettings'}}
               contentContainerStyle={[a.align_start]}>
@@ -169,17 +180,6 @@ export function NotificationSettingsScreen({}: Props) {
               <ItemTextWithSubtitle
                 titleText={<Trans>Reposts</Trans>}
                 subtitleText={<SettingPreview preference={settings?.repost} />}
-                showSkeleton={!settings}
-              />
-            </SettingsList.LinkItem>
-            <SettingsList.LinkItem
-              label={_(msg`Settings for new follower notifications`)}
-              to={{screen: 'NewFollowerNotificationSettings'}}
-              contentContainerStyle={[a.align_start]}>
-              <SettingsList.ItemIcon icon={PersonPlusIcon} />
-              <ItemTextWithSubtitle
-                titleText={<Trans>New followers</Trans>}
-                subtitleText={<SettingPreview preference={settings?.follow} />}
                 showSkeleton={!settings}
               />
             </SettingsList.LinkItem>
@@ -260,8 +260,8 @@ function SettingPreview({
   if (!preference) {
     return null
   } else {
-    if ('filter' in preference) {
-      if (preference.filter === 'all') {
+    if ('include' in preference) {
+      if (preference.include === 'all') {
         if (preference.list && preference.push) {
           return _(msg`In-app, Push, Everyone`)
         } else if (preference.list) {
@@ -269,7 +269,7 @@ function SettingPreview({
         } else if (preference.push) {
           return _(msg`Push, Everyone`)
         }
-      } else if (preference.filter === 'follows') {
+      } else if (preference.include === 'follows') {
         if (preference.list && preference.push) {
           return _(msg`In-app, Push, People you follow`)
         } else if (preference.list) {
