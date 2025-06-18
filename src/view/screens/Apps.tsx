@@ -116,7 +116,7 @@ export function AppsScreen() {
           ]}>
           <AppListItem
             title="linkat.blue"
-            description="Link shortener"
+            description="Tree of links stored in your PDS."
             accountHandle="linkat.blue"
             did="did:plc:thpg3rkgfslxsgeekhkxgdyu"
             playUrl="https://linkat.blue"
