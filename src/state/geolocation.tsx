@@ -28,7 +28,11 @@ export const DEFAULT_GEOLOCATION: Device['geolocation'] = {
 }
 
 async function getGeolocation(): Promise<Device['geolocation']> {
-  const res = await fetch(`https://bsky.app/ipcc`)
+  return {
+    countryCode: 'us',
+  }
+
+  /*const res = await fetch(`https://bsky.app/ipcc`)
 
   if (!res.ok) {
     throw new Error(`geolocation: lookup failed ${res.status}`)
@@ -42,7 +46,7 @@ async function getGeolocation(): Promise<Device['geolocation']> {
     }
   } else {
     return undefined
-  }
+  }*/
 }
 
 /**

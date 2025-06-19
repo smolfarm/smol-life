@@ -117,9 +117,9 @@ export function GamesScreen() {
       <TouchableOpacity
         accessibilityRole="button"
         onPress={() => Linking.openURL(game.playUrl)}
-        style={{width: '30%', padding: 8, alignItems: 'center'}}>
-        <UserAvatar type="user" size={64} avatar={profile?.avatar} />
-        <Text style={[a.text_xs, a.text_center, a.mt_md]} numberOfLines={1}>
+        style={{padding: 8, alignItems: 'center'}}>
+        <UserAvatar type="user" size={72} avatar={profile?.avatar} />
+        <Text style={[a.text_sm, a.text_center, a.mt_md]} numberOfLines={1}>
           {game.title}
         </Text>
       </TouchableOpacity>
@@ -233,12 +233,12 @@ export function GamesScreen() {
             contentContainerStyle={[
               a.flex_row,
               a.flex_wrap,
-              a.justify_center,
-              a.gap_lg,
               {paddingHorizontal: 16},
             ]}>
             {installedGames.map(game => (
-              <View key={game.playUrl} style={{width: '45%', margin: 8}}>
+              <View
+                key={game.playUrl}
+                style={[{width: 160, margin: 6, maxWidth: 160}]}>
                 <InstalledGridItem game={game} />
               </View>
             ))}
