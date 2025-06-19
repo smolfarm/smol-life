@@ -95,6 +95,7 @@ import {FollowingFeedPreferencesScreen} from '#/screens/Settings/FollowingFeedPr
 import {InterestsSettingsScreen} from '#/screens/Settings/InterestsSettings'
 import {LanguageSettingsScreen} from '#/screens/Settings/LanguageSettings'
 import {PrivacyAndSecuritySettingsScreen} from '#/screens/Settings/PrivacyAndSecuritySettings'
+import {ProfileLinksSettingsScreen} from '#/screens/Settings/ProfileLinksSettings'
 import {SettingsScreen} from '#/screens/Settings/Settings'
 import {ThreadPreferencesScreen} from '#/screens/Settings/ThreadPreferences'
 import {
@@ -367,6 +368,14 @@ function commonScreens(Stack: typeof Flat, unreadCountLabel?: string) {
         getComponent={() => ExternalMediaPreferencesScreen}
         options={{
           title: title(msg`External Media Preferences`),
+          requireAuth: true,
+        }}
+      />
+      <Stack.Screen
+        name="ProfileLinksSettings"
+        getComponent={() => ProfileLinksSettingsScreen}
+        options={{
+          title: title(msg`Profile Links`),
           requireAuth: true,
         }}
       />

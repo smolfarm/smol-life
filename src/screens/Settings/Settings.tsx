@@ -206,6 +206,14 @@ export function SettingsScreen({}: Props) {
             </SettingsList.ItemText>
           </SettingsList.LinkItem>
           <SettingsList.LinkItem
+            to="/settings/profile-links"
+            label={_(msg`Profile Links`)}>
+            <SettingsList.ItemIcon icon={DotsHorizontal} />
+            <SettingsList.ItemText>
+              <Trans>Profile Links</Trans>
+            </SettingsList.ItemText>
+          </SettingsList.LinkItem>
+          <SettingsList.LinkItem
             to="/settings/accessibility"
             label={_(msg`Accessibility`)}>
             <SettingsList.ItemIcon icon={AccessibilityIcon} />
