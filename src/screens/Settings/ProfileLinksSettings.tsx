@@ -1,5 +1,5 @@
 import {useEffect, useRef, useState} from 'react'
-import {Pressable, TextInput} from 'react-native'
+import {TextInput} from 'react-native'
 import {Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 
@@ -13,7 +13,8 @@ import {
 } from '#/state/queries/profile-links'
 import {useAgent, useSession} from '#/state/session'
 import * as Toast from '#/view/com/util/Toast'
-import {atoms as a} from '#/alf'
+import {atoms as a, useTheme} from '#/alf'
+import {Button, ButtonText} from '#/components/Button'
 import * as Layout from '#/components/Layout'
 import {Text} from '#/components/Typography'
 import * as SettingsList from './components/SettingsList'
@@ -25,6 +26,7 @@ type Props = NativeStackScreenProps<
 
 export function ProfileLinksSettingsScreen({}: Props) {
   const {_} = useLingui()
+  const t = useTheme()
   const {currentAccount} = useSession()
   const agent = useAgent()
   const {data: existingLinks = [], isLoading} = useProfileLinksQuery(
@@ -122,6 +124,9 @@ export function ProfileLinksSettingsScreen({}: Props) {
             <>
               {links.map((link, idx) => (
                 <SettingsList.Item key={idx} style={[a.flex_col, a.mb_md]}>
+                  <SettingsList.ItemText>
+                    <Trans>Link {idx + 1}</Trans>
+                  </SettingsList.ItemText>
                   <TextInput
                     accessibilityLabel="Text input field"
                     accessibilityHint={_(`Input emoji for link ${idx + 1}`)}
@@ -133,7 +138,13 @@ export function ProfileLinksSettingsScreen({}: Props) {
                         updateLink(idx, 'emoji', text)
                       }
                     }}
-                    style={[a.border, a.px_md, a.py_sm]}
+                    style={[
+                      a.border,
+                      a.rounded_sm,
+                      t.atoms.bg_contrast_25,
+                      a.px_md,
+                      a.py_sm,
+                    ]}
                   />
                   <TextInput
                     accessibilityLabel="Text input field"
@@ -141,41 +152,65 @@ export function ProfileLinksSettingsScreen({}: Props) {
                     placeholder={_('Text')}
                     value={link.text}
                     onChangeText={text => updateLink(idx, 'text', text)}
-                    style={[a.border, a.px_md, a.py_sm, a.mt_sm]}
+                    style={[
+                      a.border,
+                      a.rounded_sm,
+                      t.atoms.bg_contrast_25,
+                      a.px_md,
+                      a.py_sm,
+                      a.mt_sm,
+                    ]}
                   />
                   <TextInput
                     accessibilityLabel="Text input field"
                     accessibilityHint={_(`Input URL for link ${idx + 1}`)}
+                    placeholder={_('URL')}
                     value={link.url}
                     onChangeText={text => updateLink(idx, 'url', text)}
-                    style={[a.border, a.px_md, a.py_sm, a.mt_sm]}
+                    style={[
+                      a.border,
+                      a.rounded_sm,
+                      t.atoms.bg_contrast_25,
+                      a.px_md,
+                      a.py_sm,
+                      a.mt_sm,
+                    ]}
                   />
-                  <Pressable
-                    accessibilityRole="button"
+                  <Button
+                    label={_('Delete')}
+                    variant="solid"
+                    color="negative"
+                    size="small"
                     onPress={() => removeLink(idx)}
                     style={[a.mt_sm, a.align_end]}>
-                    <Text style={[a.text_sm]}>
+                    <ButtonText>
                       <Trans>Delete</Trans>
-                    </Text>
-                  </Pressable>
+                    </ButtonText>
+                  </Button>
                 </SettingsList.Item>
               ))}
-              <Pressable
-                accessibilityRole="button"
+              <Button
+                label={_('Add Link')}
+                variant="solid"
+                color="primary"
+                size="large"
                 onPress={addLink}
-                style={[a.mt_md, a.align_center]}>
-                <Text style={[a.text_md]}>
+                style={[a.m_md, a.align_center]}>
+                <ButtonText>
                   <Trans>Add Link</Trans>
-                </Text>
-              </Pressable>
-              <Pressable
-                accessibilityRole="button"
+                </ButtonText>
+              </Button>
+              <Button
+                label={_('Save')}
+                variant="solid"
+                color="primary"
+                size="large"
                 onPress={saveLinks}
-                style={[a.mt_md, a.align_center]}>
-                <Text style={[a.text_md]}>
+                style={[a.m_md, a.align_center]}>
+                <ButtonText>
                   <Trans>Save</Trans>
-                </Text>
-              </Pressable>
+                </ButtonText>
+              </Button>
             </>
           )}
         </SettingsList.Container>

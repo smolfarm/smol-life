@@ -52,6 +52,7 @@ import {
   PersonX_Stroke2_Corner0_Rounded as PersonXIcon,
 } from '#/components/icons/Person'
 import {RaisingHand4Finger_Stroke2_Corner2_Rounded as HandIcon} from '#/components/icons/RaisingHand'
+import {Tree_Stroke2_Corner0_Rounded as TreeIcon} from '#/components/icons/Tree'
 import {Window_Stroke2_Corner2_Rounded as WindowIcon} from '#/components/icons/Window'
 import * as Layout from '#/components/Layout'
 import {Loader} from '#/components/Loader'
@@ -245,10 +246,10 @@ export function SettingsScreen({}: Props) {
           </Text>
           <SettingsList.LinkItem
             to="/settings/profile-links"
-            label={_(msg`Profile Links`)}>
-            <SettingsList.ItemIcon icon={DotsHorizontal} />
+            label={_(msg`Link Tree`)}>
+            <SettingsList.ItemIcon icon={TreeIcon} />
             <SettingsList.ItemText>
-              <Trans>Profile Links</Trans>
+              <Trans>Link Tree</Trans>
             </SettingsList.ItemText>
           </SettingsList.LinkItem>
           <SettingsList.Divider />
