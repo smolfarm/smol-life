@@ -246,10 +246,10 @@ export function SettingsScreen({}: Props) {
           </Text>
           <SettingsList.LinkItem
             to="/settings/profile-links"
-            label={_(msg`Link Tree`)}>
+            label={_(msg`Link Tree (Linkat.blue)`)}>
             <SettingsList.ItemIcon icon={TreeIcon} />
             <SettingsList.ItemText>
-              <Trans>Link Tree</Trans>
+              <Trans>Link Tree (Linkat.blue)</Trans>
             </SettingsList.ItemText>
           </SettingsList.LinkItem>
           <SettingsList.Divider />
