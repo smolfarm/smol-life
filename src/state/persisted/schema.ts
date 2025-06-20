@@ -127,6 +127,13 @@ const schema = z.object({
   mutedThreads: z.array(z.string()),
   trendingDisabled: z.boolean().optional(),
   trendingVideoDisabled: z.boolean().optional(),
+  profileLinks: z
+    .object({
+      showEmoji: z.boolean(),
+      showUrlSubtitle: z.boolean(),
+      showPoweredBy: z.boolean(),
+    })
+    .optional(),
 })
 export type Schema = z.infer<typeof schema>
 
@@ -174,6 +181,11 @@ export const defaults: Schema = {
   subtitlesEnabled: true,
   trendingDisabled: false,
   trendingVideoDisabled: false,
+  profileLinks: {
+    showEmoji: true,
+    showUrlSubtitle: true,
+    showPoweredBy: true,
+  },
 }
 
 export function tryParse(rawData: string): Schema | undefined {
