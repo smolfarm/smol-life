@@ -42,6 +42,16 @@ export function ProfileLinksSettingsScreen({}: Props) {
   }, [existingLinks])
 
   const saveLinks = async () => {
+    // Validate URLs before saving
+    for (const link of links) {
+      if (!link.url) continue
+      try {
+        new URL(link.url)
+      } catch {
+        Toast.show(`Invalid URL: ${link.url}`)
+        return
+      }
+    }
     try {
       const did = currentAccount?.did
       if (!did) throw new Error('No DID')
@@ -85,6 +95,12 @@ export function ProfileLinksSettingsScreen({}: Props) {
   const removeLink = (idx: number) =>
     setLinks(links.filter((_, i) => i !== idx))
 
+  // Utility: validate single emoji
+  const isSingleEmoji = (str: string) => {
+    const regex = /\p{Extended_Pictographic}/u
+    return Array.from(str).length === 1 && regex.test(str)
+  }
+
   return (
     <Layout.Screen testID="profileLinksSettingsScreen">
       <Layout.Header.Outer>
@@ -111,7 +127,12 @@ export function ProfileLinksSettingsScreen({}: Props) {
                     accessibilityHint={_(`Input emoji for link ${idx + 1}`)}
                     placeholder={_('Emoji')}
                     value={link.emoji}
-                    onChangeText={text => updateLink(idx, 'emoji', text)}
+                    onChangeText={text => {
+                      // Allow only single emoji or empty
+                      if (text === '' || isSingleEmoji(text)) {
+                        updateLink(idx, 'emoji', text)
+                      }
+                    }}
                     style={[a.border, a.px_md, a.py_sm]}
                   />
                   <TextInput

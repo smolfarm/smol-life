@@ -67,6 +67,7 @@ import {
 type Props = NativeStackScreenProps<CommonNavigatorParams, 'Settings'>
 export function SettingsScreen({}: Props) {
   const {_} = useLingui()
+  const t = useTheme()
   const reducedMotion = useReducedMotion()
   const {logoutEveryAccount} = useSessionApi()
   const {accounts, currentAccount} = useSession()
@@ -206,14 +207,6 @@ export function SettingsScreen({}: Props) {
             </SettingsList.ItemText>
           </SettingsList.LinkItem>
           <SettingsList.LinkItem
-            to="/settings/profile-links"
-            label={_(msg`Profile Links`)}>
-            <SettingsList.ItemIcon icon={DotsHorizontal} />
-            <SettingsList.ItemText>
-              <Trans>Profile Links</Trans>
-            </SettingsList.ItemText>
-          </SettingsList.LinkItem>
-          <SettingsList.LinkItem
             to="/settings/accessibility"
             label={_(msg`Accessibility`)}>
             <SettingsList.ItemIcon icon={AccessibilityIcon} />
@@ -243,6 +236,19 @@ export function SettingsScreen({}: Props) {
             <SettingsList.ItemIcon icon={BubbleInfoIcon} />
             <SettingsList.ItemText>
               <Trans>About</Trans>
+            </SettingsList.ItemText>
+          </SettingsList.LinkItem>
+          <SettingsList.Divider />
+          <Text
+            style={[a.pl_xl, a.pt_sm, a.text_sm, t.atoms.text_contrast_medium]}>
+            <Trans>Other Protocol Data</Trans>
+          </Text>
+          <SettingsList.LinkItem
+            to="/settings/profile-links"
+            label={_(msg`Profile Links`)}>
+            <SettingsList.ItemIcon icon={DotsHorizontal} />
+            <SettingsList.ItemText>
+              <Trans>Profile Links</Trans>
             </SettingsList.ItemText>
           </SettingsList.LinkItem>
           <SettingsList.Divider />
