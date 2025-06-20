@@ -52,6 +52,7 @@ import {
   PersonX_Stroke2_Corner0_Rounded as PersonXIcon,
 } from '#/components/icons/Person'
 import {RaisingHand4Finger_Stroke2_Corner2_Rounded as HandIcon} from '#/components/icons/RaisingHand'
+import {Tree_Stroke2_Corner0_Rounded as TreeIcon} from '#/components/icons/Tree'
 import {Window_Stroke2_Corner2_Rounded as WindowIcon} from '#/components/icons/Window'
 import * as Layout from '#/components/Layout'
 import {Loader} from '#/components/Loader'
@@ -67,6 +68,7 @@ import {
 type Props = NativeStackScreenProps<CommonNavigatorParams, 'Settings'>
 export function SettingsScreen({}: Props) {
   const {_} = useLingui()
+  const t = useTheme()
   const reducedMotion = useReducedMotion()
   const {logoutEveryAccount} = useSessionApi()
   const {accounts, currentAccount} = useSession()
@@ -235,6 +237,19 @@ export function SettingsScreen({}: Props) {
             <SettingsList.ItemIcon icon={BubbleInfoIcon} />
             <SettingsList.ItemText>
               <Trans>About</Trans>
+            </SettingsList.ItemText>
+          </SettingsList.LinkItem>
+          <SettingsList.Divider />
+          <Text
+            style={[a.pl_xl, a.pt_sm, a.text_sm, t.atoms.text_contrast_medium]}>
+            <Trans>Other Protocol Data</Trans>
+          </Text>
+          <SettingsList.LinkItem
+            to="/settings/profile-links"
+            label={_(msg`Link Tree (Linkat.blue)`)}>
+            <SettingsList.ItemIcon icon={TreeIcon} />
+            <SettingsList.ItemText>
+              <Trans>Link Tree (Linkat.blue)</Trans>
             </SettingsList.ItemText>
           </SettingsList.LinkItem>
           <SettingsList.Divider />
