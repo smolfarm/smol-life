@@ -66,11 +66,11 @@ export default function MonthYearRangePicker({
       <Picker
         style={[
           a.flex_1,
-          a.px_sm,
-          a.py_xs,
-          a.rounded_sm,
           a.border,
-          {borderColor: 'black'},
+          a.rounded_sm,
+          theme.atoms.bg_contrast_25,
+          a.px_md,
+          a.py_sm,
         ]}
         itemStyle={{color: theme.atoms.text_contrast_high.color}}
         selectedValue={startMonth}
@@ -85,11 +85,11 @@ export default function MonthYearRangePicker({
       <Picker
         style={[
           a.flex_1,
-          a.px_sm,
-          a.py_xs,
-          a.rounded_sm,
           a.border,
-          {borderColor: 'black'},
+          a.rounded_sm,
+          theme.atoms.bg_contrast_25,
+          a.px_md,
+          a.py_sm,
         ]}
         itemStyle={{color: theme.atoms.text_contrast_high.color}}
         selectedValue={startYear}
@@ -102,16 +102,6 @@ export default function MonthYearRangePicker({
         ))}
       </Picker>
 
-      {/* Current */}
-      {allowCurrent && (
-        <>
-          <Switch value={isCurrent} onValueChange={handleCurrentToggle} />
-          <Text style={[a.ml_sm, theme.atoms.text_contrast_high]}>
-            <Trans>Current</Trans>
-          </Text>
-        </>
-      )}
-
       {/* To */}
       {!isCurrent && (
         <>
@@ -121,11 +111,11 @@ export default function MonthYearRangePicker({
           <Picker
             style={[
               a.flex_1,
-              a.px_sm,
-              a.py_xs,
-              a.rounded_sm,
               a.border,
-              {borderColor: 'black'},
+              a.rounded_sm,
+              theme.atoms.bg_contrast_25,
+              a.px_md,
+              a.py_sm,
             ]}
             itemStyle={{color: theme.atoms.text_contrast_high.color}}
             selectedValue={endMonth}
@@ -144,11 +134,11 @@ export default function MonthYearRangePicker({
           <Picker
             style={[
               a.flex_1,
-              a.px_sm,
-              a.py_xs,
-              a.rounded_sm,
               a.border,
-              {borderColor: 'black'},
+              a.rounded_sm,
+              theme.atoms.bg_contrast_25,
+              a.px_md,
+              a.py_sm,
             ]}
             itemStyle={{color: theme.atoms.text_contrast_high.color}}
             selectedValue={endYear}
@@ -160,6 +150,20 @@ export default function MonthYearRangePicker({
               <Picker.Item key={item} label={item} value={item} />
             ))}
           </Picker>
+        </>
+      )}
+
+      {/* Current */}
+      {allowCurrent && (
+        <>
+          <Switch
+            value={isCurrent}
+            onValueChange={handleCurrentToggle}
+            style={[a.ml_sm]}
+          />
+          <Text style={[theme.atoms.text_contrast_high]}>
+            <Trans>Current Role</Trans>
+          </Text>
         </>
       )}
     </View>
