@@ -239,7 +239,6 @@ export function CvSettingsScreen({}: Props) {
                         theme.atoms.bg_contrast_25,
                         a.px_md,
                         a.py_sm,
-                        a.mt_sm,
                       ]}
                     />
                     <MonthYearRangePicker
@@ -262,7 +261,6 @@ export function CvSettingsScreen({}: Props) {
                         theme.atoms.bg_contrast_25,
                         a.px_md,
                         a.py_sm,
-                        a.mt_sm,
                       ]}
                     />
                     <Button
@@ -332,7 +330,6 @@ export function CvSettingsScreen({}: Props) {
                         theme.atoms.bg_contrast_25,
                         a.px_md,
                         a.py_sm,
-                        a.mt_sm,
                       ]}
                     />
                     <MonthYearRangePicker
