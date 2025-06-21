@@ -2,7 +2,7 @@ import {Switch, Text, View} from 'react-native'
 import {Trans} from '@lingui/macro'
 import {Picker} from '@react-native-picker/picker'
 
-import {atoms as a} from '#/alf'
+import {atoms as a, useTheme} from '#/alf'
 
 const _: (msg: string) => string = msg => msg
 
@@ -37,6 +37,7 @@ export default function MonthYearPicker({
   onChange,
   allowCurrent = false,
 }: MonthYearPickerProps) {
+  const theme = useTheme()
   const parts = date.split('-')
   const year = parts[0] || ''
   const month = parts[1] || ''
@@ -44,7 +45,16 @@ export default function MonthYearPicker({
   return (
     <View style={[a.flex_row, a.gap_md]}>
       <Picker
-        style={[a.flex_1]}
+        style={[
+          a.flex_1,
+          a.px_sm,
+          a.py_xs,
+          a.rounded_sm,
+          a.border,
+          theme.atoms.border_contrast_medium,
+          theme.atoms.bg_contrast_100,
+        ]}
+        itemStyle={{color: theme.atoms.text_contrast_high.color}}
         selectedValue={month}
         onValueChange={val => {
           const y = year || YEARS[0]
@@ -57,6 +67,16 @@ export default function MonthYearPicker({
       </Picker>
 
       <Picker
+        style={[
+          a.flex_1,
+          a.px_sm,
+          a.py_xs,
+          a.rounded_sm,
+          a.border,
+          theme.atoms.border_contrast_medium,
+          theme.atoms.bg_contrast_100,
+        ]}
+        itemStyle={{color: theme.atoms.text_contrast_high.color}}
         selectedValue={year}
         onValueChange={val => {
           const m = month || MONTHS[0].value
@@ -81,7 +101,7 @@ export default function MonthYearPicker({
               }
             }}
           />
-          <Text style={[a.ml_sm]}>
+          <Text style={[a.ml_sm, theme.atoms.text_contrast_high]}>
             <Trans>I currently work here</Trans>
           </Text>
         </View>

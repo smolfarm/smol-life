@@ -1,5 +1,5 @@
 import {useEffect, useRef, useState} from 'react'
-import {ScrollView, TextInput} from 'react-native'
+import {ScrollView, TextInput, View} from 'react-native'
 import {Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {type NativeStackScreenProps} from '@react-navigation/native-stack'
@@ -222,15 +222,24 @@ export function CvSettingsScreen({}: Props) {
                         a.mt_sm,
                       ]}
                     />
-                    <MonthYearPicker
-                      date={job.startDate}
-                      onChange={d => updateJob(idx, 'startDate', d)}
-                    />
-                    <MonthYearPicker
-                      date={job.endDate || ''}
-                      onChange={d => updateJob(idx, 'endDate', d)}
-                      allowCurrent
-                    />
+                    <View style={[a.flex_row, a.align_center, a.gap_sm]}>
+                      <MonthYearPicker
+                        date={job.startDate}
+                        onChange={d => updateJob(idx, 'startDate', d)}
+                      />
+                      <Text
+                        style={[
+                          theme.atoms.text_contrast_medium,
+                          a.self_center,
+                        ]}>
+                        <Trans>to</Trans>
+                      </Text>
+                      <MonthYearPicker
+                        date={job.endDate || ''}
+                        onChange={d => updateJob(idx, 'endDate', d)}
+                        allowCurrent
+                      />
+                    </View>
                     <TextInput
                       multiline
                       accessibilityLabel="Text input field"
@@ -317,15 +326,24 @@ export function CvSettingsScreen({}: Props) {
                         a.mt_sm,
                       ]}
                     />
-                    <MonthYearPicker
-                      date={edu.startDate}
-                      onChange={d => updateEducation(idx, 'startDate', d)}
-                    />
-                    <MonthYearPicker
-                      date={edu.endDate || ''}
-                      onChange={d => updateEducation(idx, 'endDate', d)}
-                      allowCurrent
-                    />
+                    <View style={[a.flex_row, a.align_center, a.gap_sm]}>
+                      <MonthYearPicker
+                        date={edu.startDate}
+                        onChange={d => updateEducation(idx, 'startDate', d)}
+                      />
+                      <Text
+                        style={[
+                          theme.atoms.text_contrast_medium,
+                          a.self_center,
+                        ]}>
+                        <Trans>to</Trans>
+                      </Text>
+                      <MonthYearPicker
+                        date={edu.endDate || ''}
+                        onChange={d => updateEducation(idx, 'endDate', d)}
+                        allowCurrent
+                      />
+                    </View>
                     <TextInput
                       multiline
                       accessibilityLabel="Text input field"
