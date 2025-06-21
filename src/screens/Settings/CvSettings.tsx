@@ -19,7 +19,7 @@ import * as Layout from '#/components/Layout'
 import {Text} from '#/components/Typography' // add Text import
 import * as SettingsList from './components/SettingsList'
 
-type Props = NativeStackScreenProps<CommonNavigatorParams, 'CvSettings'>
+type Props = NativeStackScreenProps<CommonNavigatorParams, 'ResumeSettings'>
 
 export function CvSettingsScreen({}: Props) {
   const {_} = useLingui()
@@ -150,6 +150,15 @@ export function CvSettingsScreen({}: Props) {
               </Text>
             ) : (
               <>
+                <Text
+                  style={[
+                    a.text_md,
+                    a.font_bold,
+                    a.mb_lg,
+                    theme.atoms.text_contrast_high,
+                  ]}>
+                  <Trans>Overview</Trans>
+                </Text>
                 <SettingsList.Item>
                   <SettingsList.ItemText>
                     <Trans>Overview</Trans>
@@ -172,6 +181,15 @@ export function CvSettingsScreen({}: Props) {
                   />
                 </SettingsList.Item>
 
+                <Text
+                  style={[
+                    a.text_md,
+                    a.font_bold,
+                    a.mb_lg,
+                    theme.atoms.text_contrast_high,
+                  ]}>
+                  <Trans>Work History</Trans>
+                </Text>
                 {cv.jobHistory.map((job, idx) => (
                   <SettingsList.Item key={idx} style={[a.mb_md]}>
                     <SettingsList.ItemText>
@@ -277,6 +295,15 @@ export function CvSettingsScreen({}: Props) {
                   </ButtonText>
                 </Button>
 
+                <Text
+                  style={[
+                    a.text_md,
+                    a.font_bold,
+                    a.mb_lg,
+                    theme.atoms.text_contrast_high,
+                  ]}>
+                  <Trans>Education</Trans>
+                </Text>
                 {cv.educationHistory.map((edu, idx) => (
                   <SettingsList.Item key={idx} style={[a.mb_md]}>
                     <SettingsList.ItemText>
@@ -392,6 +419,15 @@ export function CvSettingsScreen({}: Props) {
                   </ButtonText>
                 </Button>
 
+                <Text
+                  style={[
+                    a.text_md,
+                    a.font_bold,
+                    a.mb_lg,
+                    theme.atoms.text_contrast_high,
+                  ]}>
+                  <Trans>Skills</Trans>
+                </Text>
                 {cv.skills.map((skill, idx) => (
                   <SettingsList.Item key={idx} style={[a.mb_md]}>
                     <SettingsList.ItemText>
@@ -437,6 +473,7 @@ export function CvSettingsScreen({}: Props) {
                   </ButtonText>
                 </Button>
 
+                <SettingsList.Divider />
                 <Button
                   label={_('Save')}
                   variant="solid"
