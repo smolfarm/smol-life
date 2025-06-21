@@ -41,7 +41,7 @@ export function useCvQuery(did: string) {
     queryFn: async () => {
       const res = await agent.com.atproto.repo.listRecords({
         repo: did,
-        collection: 'app.smolfarm.cv',
+        collection: 'life.smol.resume',
         limit: 1,
       })
       if (res.data.records.length > 0) {

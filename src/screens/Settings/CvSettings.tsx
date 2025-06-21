@@ -192,9 +192,6 @@ export function CvSettingsScreen({}: Props) {
                 </Text>
                 {cv.jobHistory.map((job, idx) => (
                   <SettingsList.Item key={idx} style={[a.mb_md]}>
-                    <SettingsList.ItemText>
-                      <Trans>Job {idx + 1}</Trans>
-                    </SettingsList.ItemText>
                     <TextInput
                       accessibilityLabel="Text input field"
                       accessibilityHint={_('Company')}
@@ -306,9 +303,6 @@ export function CvSettingsScreen({}: Props) {
                 </Text>
                 {cv.educationHistory.map((edu, idx) => (
                   <SettingsList.Item key={idx} style={[a.mb_md]}>
-                    <SettingsList.ItemText>
-                      <Trans>Education {idx + 1}</Trans>
-                    </SettingsList.ItemText>
                     <TextInput
                       accessibilityLabel="Text input field"
                       accessibilityHint={_('Institution')}
@@ -430,9 +424,6 @@ export function CvSettingsScreen({}: Props) {
                 </Text>
                 {cv.skills.map((skill, idx) => (
                   <SettingsList.Item key={idx} style={[a.mb_md]}>
-                    <SettingsList.ItemText>
-                      <Trans>Skill {idx + 1}</Trans>
-                    </SettingsList.ItemText>
                     <TextInput
                       accessibilityLabel="Text input field"
                       accessibilityHint={_('Skill')}
