@@ -1,5 +1,5 @@
 import {useEffect, useRef, useState} from 'react'
-import {ScrollView, TextInput, View} from 'react-native'
+import {ScrollView, TextInput} from 'react-native'
 import {Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
 import {type NativeStackScreenProps} from '@react-navigation/native-stack'
@@ -17,7 +17,7 @@ import {atoms as a, useTheme} from '#/alf'
 import {Button, ButtonText} from '#/components/Button'
 import * as Layout from '#/components/Layout'
 import {Text} from '#/components/Typography' // add Text import
-import MonthYearPicker from './components/MonthYearPicker' // new date picker component
+import MonthYearRangePicker from './components/MonthYearRangePicker' // new date picker component
 import * as SettingsList from './components/SettingsList'
 
 type Props = NativeStackScreenProps<CommonNavigatorParams, 'ResumeSettings'>
@@ -242,24 +242,13 @@ export function CvSettingsScreen({}: Props) {
                         a.mt_sm,
                       ]}
                     />
-                    <View style={[a.flex_row, a.align_center, a.gap_sm]}>
-                      <MonthYearPicker
-                        date={job.startDate}
-                        onChange={d => updateJob(idx, 'startDate', d)}
-                      />
-                      <Text
-                        style={[
-                          theme.atoms.text_contrast_medium,
-                          a.self_center,
-                        ]}>
-                        <Trans>to</Trans>
-                      </Text>
-                      <MonthYearPicker
-                        date={job.endDate || ''}
-                        onChange={d => updateJob(idx, 'endDate', d)}
-                        allowCurrent
-                      />
-                    </View>
+                    <MonthYearRangePicker
+                      startDate={job.startDate}
+                      endDate={job.endDate || ''}
+                      onStartChange={d => updateJob(idx, 'startDate', d)}
+                      onEndChange={d => updateJob(idx, 'endDate', d)}
+                      allowCurrent
+                    />
                     <TextInput
                       multiline
                       accessibilityLabel="Text input field"
@@ -346,24 +335,13 @@ export function CvSettingsScreen({}: Props) {
                         a.mt_sm,
                       ]}
                     />
-                    <View style={[a.flex_row, a.align_center, a.gap_sm]}>
-                      <MonthYearPicker
-                        date={edu.startDate}
-                        onChange={d => updateEducation(idx, 'startDate', d)}
-                      />
-                      <Text
-                        style={[
-                          theme.atoms.text_contrast_medium,
-                          a.self_center,
-                        ]}>
-                        <Trans>to</Trans>
-                      </Text>
-                      <MonthYearPicker
-                        date={edu.endDate || ''}
-                        onChange={d => updateEducation(idx, 'endDate', d)}
-                        allowCurrent
-                      />
-                    </View>
+                    <MonthYearRangePicker
+                      startDate={edu.startDate}
+                      endDate={edu.endDate || ''}
+                      onStartChange={d => updateEducation(idx, 'startDate', d)}
+                      onEndChange={d => updateEducation(idx, 'endDate', d)}
+                      allowCurrent
+                    />
                     <TextInput
                       multiline
                       accessibilityLabel="Text input field"
