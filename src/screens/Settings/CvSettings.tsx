@@ -201,7 +201,7 @@ export function CvSettingsScreen({}: Props) {
                     ]}
                   />
                 </SettingsList.Item>
-
+                <SettingsList.Divider />
                 <Text
                   style={[
                     a.text_md,
@@ -301,7 +301,7 @@ export function CvSettingsScreen({}: Props) {
                     <Trans>Add Job</Trans>
                   </ButtonText>
                 </Button>
-
+                <SettingsList.Divider />
                 <Text
                   style={[
                     a.text_md,
@@ -407,7 +407,7 @@ export function CvSettingsScreen({}: Props) {
                     <Trans>Add Education</Trans>
                   </ButtonText>
                 </Button>
-
+                <SettingsList.Divider />
                 <Text
                   style={[
                     a.text_md,
