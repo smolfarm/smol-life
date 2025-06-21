@@ -17,6 +17,7 @@ import {atoms as a, useTheme} from '#/alf'
 import {Button, ButtonText} from '#/components/Button'
 import * as Layout from '#/components/Layout'
 import {Text} from '#/components/Typography' // add Text import
+import MonthYearPicker from './components/MonthYearPicker' // new date picker component
 import * as SettingsList from './components/SettingsList'
 
 type Props = NativeStackScreenProps<CommonNavigatorParams, 'ResumeSettings'>
@@ -221,35 +222,14 @@ export function CvSettingsScreen({}: Props) {
                         a.mt_sm,
                       ]}
                     />
-                    <TextInput
-                      accessibilityLabel="Text input field"
-                      accessibilityHint={_('Start Date (YYYY-MM-DD)')}
-                      placeholder={_('Start Date (YYYY-MM-DD)')}
-                      value={job.startDate}
-                      onChangeText={text => updateJob(idx, 'startDate', text)}
-                      style={[
-                        a.border,
-                        a.rounded_sm,
-                        theme.atoms.bg_contrast_25,
-                        a.px_md,
-                        a.py_sm,
-                        a.mt_sm,
-                      ]}
+                    <MonthYearPicker
+                      date={job.startDate}
+                      onChange={d => updateJob(idx, 'startDate', d)}
                     />
-                    <TextInput
-                      accessibilityLabel="Text input field"
-                      accessibilityHint={_('End Date (YYYY-MM-DD)')}
-                      placeholder={_('End Date (YYYY-MM-DD)')}
-                      value={job.endDate || ''}
-                      onChangeText={text => updateJob(idx, 'endDate', text)}
-                      style={[
-                        a.border,
-                        a.rounded_sm,
-                        theme.atoms.bg_contrast_25,
-                        a.px_md,
-                        a.py_sm,
-                        a.mt_sm,
-                      ]}
+                    <MonthYearPicker
+                      date={job.endDate || ''}
+                      onChange={d => updateJob(idx, 'endDate', d)}
+                      allowCurrent
                     />
                     <TextInput
                       multiline
@@ -337,39 +317,14 @@ export function CvSettingsScreen({}: Props) {
                         a.mt_sm,
                       ]}
                     />
-                    <TextInput
-                      accessibilityLabel="Text input field"
-                      accessibilityHint={_('Start Date (YYYY-MM-DD)')}
-                      placeholder={_('Start Date (YYYY-MM-DD)')}
-                      value={edu.startDate}
-                      onChangeText={text =>
-                        updateEducation(idx, 'startDate', text)
-                      }
-                      style={[
-                        a.border,
-                        a.rounded_sm,
-                        theme.atoms.bg_contrast_25,
-                        a.px_md,
-                        a.py_sm,
-                        a.mt_sm,
-                      ]}
+                    <MonthYearPicker
+                      date={edu.startDate}
+                      onChange={d => updateEducation(idx, 'startDate', d)}
                     />
-                    <TextInput
-                      accessibilityLabel="Text input field"
-                      accessibilityHint={_('End Date (YYYY-MM-DD)')}
-                      placeholder={_('End Date (YYYY-MM-DD)')}
-                      value={edu.endDate || ''}
-                      onChangeText={text =>
-                        updateEducation(idx, 'endDate', text)
-                      }
-                      style={[
-                        a.border,
-                        a.rounded_sm,
-                        theme.atoms.bg_contrast_25,
-                        a.px_md,
-                        a.py_sm,
-                        a.mt_sm,
-                      ]}
+                    <MonthYearPicker
+                      date={edu.endDate || ''}
+                      onChange={d => updateEducation(idx, 'endDate', d)}
+                      allowCurrent
                     />
                     <TextInput
                       multiline

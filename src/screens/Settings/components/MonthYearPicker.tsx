@@ -4,7 +4,7 @@ import {Picker} from '@react-native-picker/picker'
 
 import {atoms as a} from '#/alf'
 
-declare const _: (msg: string) => string
+const _: (msg: string) => string = msg => msg
 
 const MONTHS = [
   {label: _('Jan'), value: '01'},
