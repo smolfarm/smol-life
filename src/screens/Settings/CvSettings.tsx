@@ -55,20 +55,18 @@ export function CvSettingsScreen({}: Props) {
         limit: 1,
       })
       if (listRes.data.records.length > 0) {
-        const record = listRes.data.records[0]
-        const uriParts = record.uri.split('/')
-        const rkey = uriParts[uriParts.length - 1]!
         await agent.com.atproto.repo.putRecord({
           record: cv as unknown as {[x: string]: unknown},
           repo: did,
           collection: 'life.smol.resume',
-          rkey,
+          rkey: 'primary',
         })
       } else {
         await agent.com.atproto.repo.createRecord({
           repo: did,
           collection: 'life.smol.resume',
           record: cv as unknown as {[x: string]: unknown},
+          rkey: 'primary',
         })
       }
       Toast.show('CV saved.')
