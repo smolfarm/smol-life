@@ -38,6 +38,7 @@ import {SwitchAccountDialog} from '#/components/dialogs/SwitchAccount'
 import {Accessibility_Stroke2_Corner2_Rounded as AccessibilityIcon} from '#/components/icons/Accessibility'
 import {Bell_Stroke2_Corner0_Rounded as NotificationIcon} from '#/components/icons/Bell'
 import {BubbleInfo_Stroke2_Corner2_Rounded as BubbleInfoIcon} from '#/components/icons/BubbleInfo'
+import {Calendar_Stroke2_Corner0_Rounded as CalendarIcon} from '#/components/icons/Calendar'
 import {ChevronTop_Stroke2_Corner0_Rounded as ChevronUpIcon} from '#/components/icons/Chevron'
 import {CircleQuestion_Stroke2_Corner2_Rounded as CircleQuestionIcon} from '#/components/icons/CircleQuestion'
 import {CodeBrackets_Stroke2_Corner2_Rounded as CodeBracketsIcon} from '#/components/icons/CodeBrackets'
@@ -242,7 +243,7 @@ export function SettingsScreen({}: Props) {
           <SettingsList.Divider />
           <Text
             style={[a.pl_xl, a.pt_sm, a.text_sm, t.atoms.text_contrast_medium]}>
-            <Trans>Other Protocol Data</Trans>
+            <Trans>Other ATProto Data</Trans>
           </Text>
           <SettingsList.LinkItem
             to="/settings/profile-links"
@@ -252,6 +253,14 @@ export function SettingsScreen({}: Props) {
               <Trans>Link Tree (Linkat.blue)</Trans>
             </SettingsList.ItemText>
           </SettingsList.LinkItem>
+
+          <SettingsList.LinkItem to="/settings/cv" label={_(msg`Resume`)}>
+            <SettingsList.ItemIcon icon={CalendarIcon} />
+            <SettingsList.ItemText>
+              <Trans>Resume</Trans>
+            </SettingsList.ItemText>
+          </SettingsList.LinkItem>
+
           <SettingsList.Divider />
           <SettingsList.PressableItem
             destructive
