@@ -102,7 +102,7 @@ export default function MonthYearPicker({
             }}
           />
           <Text style={[a.ml_sm, theme.atoms.text_contrast_high]}>
-            <Trans>I currently work here</Trans>
+            <Trans>Current Role</Trans>
           </Text>
         </View>
       )}
