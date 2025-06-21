@@ -1,11 +1,16 @@
 import React, {useContext, useMemo} from 'react'
-import {GestureResponderEvent, StyleProp, View, ViewStyle} from 'react-native'
+import {
+  type GestureResponderEvent,
+  type StyleProp,
+  View,
+  type ViewStyle,
+} from 'react-native'
 
 import {HITSLOP_10} from '#/lib/constants'
-import {atoms as a, useTheme, ViewStyleProp} from '#/alf'
+import {atoms as a, useTheme, type ViewStyleProp} from '#/alf'
 import * as Button from '#/components/Button'
 import {ChevronRight_Stroke2_Corner0_Rounded as ChevronRightIcon} from '#/components/icons/Chevron'
-import {Link, LinkProps} from '#/components/Link'
+import {Link, type LinkProps} from '#/components/Link'
 import {createPortalGroup} from '#/components/Portal'
 import {Text} from '#/components/Typography'
 
@@ -94,6 +99,7 @@ export function Item({
         a.gap_md,
         a.w_full,
         a.flex_row,
+        {flexWrap: 'wrap'},
         {minHeight: 48},
         iconInset && {
           paddingLeft:

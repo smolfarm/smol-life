@@ -252,6 +252,7 @@ export function CvSettingsScreen({}: Props) {
                       ]}
                     />
                     <TextInput
+                      multiline
                       accessibilityLabel="Text input field"
                       accessibilityHint={_('Description')}
                       placeholder={_('Description')}
@@ -371,6 +372,7 @@ export function CvSettingsScreen({}: Props) {
                       ]}
                     />
                     <TextInput
+                      multiline
                       accessibilityLabel="Text input field"
                       accessibilityHint={_('Description')}
                       placeholder={_('Description')}
