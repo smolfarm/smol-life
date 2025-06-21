@@ -21,6 +21,7 @@ export interface EducationEntry {
 }
 
 export interface CvRecord {
+  name: string
   overview: string
   jobHistory: JobEntry[]
   educationHistory: EducationEntry[]

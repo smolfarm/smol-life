@@ -31,6 +31,7 @@ export function CvSettingsScreen({}: Props) {
   const {data: existing, isLoading} = useCvQuery(did)
 
   const defaultCv: CvRecord = {
+    name: '',
     overview: '',
     jobHistory: [],
     educationHistory: [],
@@ -160,6 +161,25 @@ export function CvSettingsScreen({}: Props) {
                   ]}>
                   <Trans>Overview</Trans>
                 </Text>
+                <SettingsList.Item>
+                  <SettingsList.ItemText>
+                    <Trans>Name</Trans>
+                  </SettingsList.ItemText>
+                  <TextInput
+                    accessibilityLabel="Text input field"
+                    accessibilityHint={_('Name')}
+                    placeholder={_('Name')}
+                    value={cv.name}
+                    onChangeText={text => updateField('name', text)}
+                    style={[
+                      a.border,
+                      a.rounded_sm,
+                      theme.atoms.bg_contrast_25,
+                      a.px_md,
+                      a.py_sm,
+                    ]}
+                  />
+                </SettingsList.Item>
                 <SettingsList.Item>
                   <SettingsList.ItemText>
                     <Trans>Overview</Trans>
