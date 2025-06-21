@@ -90,6 +90,7 @@ import {AppearanceSettingsScreen} from '#/screens/Settings/AppearanceSettings'
 import {AppIconSettingsScreen} from '#/screens/Settings/AppIconSettings'
 import {AppPasswordsScreen} from '#/screens/Settings/AppPasswords'
 import {ContentAndMediaSettingsScreen} from '#/screens/Settings/ContentAndMediaSettings'
+import {CvSettingsScreen} from '#/screens/Settings/CvSettings'
 import {ExternalMediaPreferencesScreen} from '#/screens/Settings/ExternalMediaPreferences'
 import {FollowingFeedPreferencesScreen} from '#/screens/Settings/FollowingFeedPreferences'
 import {InterestsSettingsScreen} from '#/screens/Settings/InterestsSettings'
@@ -376,6 +377,14 @@ function commonScreens(Stack: typeof Flat, unreadCountLabel?: string) {
         getComponent={() => ProfileLinksSettingsScreen}
         options={{
           title: title(msg`Profile Links`),
+          requireAuth: true,
+        }}
+      />
+      <Stack.Screen
+        name="ResumeSettings"
+        getComponent={() => CvSettingsScreen}
+        options={{
+          title: title(msg`Resume Settings`),
           requireAuth: true,
         }}
       />
