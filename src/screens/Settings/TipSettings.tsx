@@ -62,33 +62,26 @@ export function TipSettingsScreen({}: Props) {
         limit: 100,
       })
       const existing = listRes.data.records as any[]
-      // Upsert existing or new
-      for (let i = 0; i < methods.length; i++) {
-        const method = methods[i]
-        if (existing[i]) {
-          const rkey = existing[i].rkey
-          await agent.com.atproto.repo.putRecord({
-            repo: did,
-            collection: 'life.smol.tipJar',
-            rkey,
-            record: method as unknown as {[key: string]: unknown},
-          })
-        } else {
-          await agent.com.atproto.repo.createRecord({
-            repo: did,
-            collection: 'life.smol.tipJar',
-            record: method as unknown as {[key: string]: unknown},
-          })
-        }
-      }
-      // Delete extras
-      for (let i = methods.length; i < existing.length; i++) {
-        const rkey = existing[i].rkey
+      // Delete all existing tip methods
+      for (const rec of existing) {
         await agent.com.atproto.repo.deleteRecord({
           repo: did,
           collection: 'life.smol.tipJar',
-          rkey,
+          rkey: rec.rkey,
         })
+      }
+
+      // Create new tip method records
+      let idx = 0
+      for (const method of methods) {
+        await agent.com.atproto.repo.createRecord({
+          repo: did,
+          collection: 'life.smol.tipJar',
+          record: method as unknown as {[key: string]: unknown},
+          rkey: idx.toString(),
+        })
+
+        idx++
       }
       Toast.show(_('Tips saved.'))
     } catch (error) {
