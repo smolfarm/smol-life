@@ -94,4 +94,5 @@ export const router = new Router<AllNavigatableRoutes>({
   Apps: '/apps',
   ProfileLinksSettings: '/settings/profile-links',
   ResumeSettings: '/settings/cv',
+  TipSettings: '/settings/tips',
 })

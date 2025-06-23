@@ -254,6 +254,13 @@ export function SettingsScreen({}: Props) {
             </SettingsList.ItemText>
           </SettingsList.LinkItem>
 
+          <SettingsList.LinkItem to="/settings/tips" label={_(msg`Tip`)}>
+            <SettingsList.ItemIcon icon={CalendarIcon} />
+            <SettingsList.ItemText>
+              <Trans>Tip Jar</Trans>
+            </SettingsList.ItemText>
+          </SettingsList.LinkItem>
+
           <SettingsList.LinkItem to="/settings/cv" label={_(msg`Resume`)}>
             <SettingsList.ItemIcon icon={CalendarIcon} />
             <SettingsList.ItemText>

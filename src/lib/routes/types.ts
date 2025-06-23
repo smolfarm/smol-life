@@ -86,6 +86,7 @@ export type CommonNavigatorParams = {
   Apps: undefined
   ProfileLinksSettings: undefined
   ResumeSettings: undefined
+  TipSettings: undefined
 }
 
 export type BottomTabNavigatorParams = CommonNavigatorParams & {

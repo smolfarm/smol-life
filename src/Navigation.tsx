@@ -99,6 +99,7 @@ import {PrivacyAndSecuritySettingsScreen} from '#/screens/Settings/PrivacyAndSec
 import {ProfileLinksSettingsScreen} from '#/screens/Settings/ProfileLinksSettings'
 import {SettingsScreen} from '#/screens/Settings/Settings'
 import {ThreadPreferencesScreen} from '#/screens/Settings/ThreadPreferences'
+import {TipSettingsScreen} from '#/screens/Settings/TipSettings'
 import {
   StarterPackScreen,
   StarterPackScreenShort,
@@ -377,6 +378,14 @@ function commonScreens(Stack: typeof Flat, unreadCountLabel?: string) {
         getComponent={() => ProfileLinksSettingsScreen}
         options={{
           title: title(msg`Profile Links`),
+          requireAuth: true,
+        }}
+      />
+      <Stack.Screen
+        name="TipSettings"
+        getComponent={() => TipSettingsScreen}
+        options={{
+          title: title(msg`Tip Settings`),
           requireAuth: true,
         }}
       />
