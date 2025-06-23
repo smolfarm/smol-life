@@ -44,6 +44,7 @@ import {CircleQuestion_Stroke2_Corner2_Rounded as CircleQuestionIcon} from '#/co
 import {CodeBrackets_Stroke2_Corner2_Rounded as CodeBracketsIcon} from '#/components/icons/CodeBrackets'
 import {DotGrid_Stroke2_Corner0_Rounded as DotsHorizontal} from '#/components/icons/DotGrid'
 import {Earth_Stroke2_Corner2_Rounded as EarthIcon} from '#/components/icons/Globe'
+import {Heart2_Stroke2_Corner0_Rounded as HeartIcon} from '#/components/icons/Heart2'
 import {Lock_Stroke2_Corner2_Rounded as LockIcon} from '#/components/icons/Lock'
 import {PaintRoller_Stroke2_Corner2_Rounded as PaintRollerIcon} from '#/components/icons/PaintRoller'
 import {
@@ -254,8 +255,8 @@ export function SettingsScreen({}: Props) {
             </SettingsList.ItemText>
           </SettingsList.LinkItem>
 
-          <SettingsList.LinkItem to="/settings/tips" label={_(msg`Tip`)}>
-            <SettingsList.ItemIcon icon={CalendarIcon} />
+          <SettingsList.LinkItem to="/settings/tips" label={_(msg`Tip Jar`)}>
+            <SettingsList.ItemIcon icon={HeartIcon} />
             <SettingsList.ItemText>
               <Trans>Tip Jar</Trans>
             </SettingsList.ItemText>
