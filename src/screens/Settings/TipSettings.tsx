@@ -129,12 +129,9 @@ export function TipSettingsScreen({}: Props) {
                             a.px_md,
                             a.py_sm,
                           ]}>
-                          <Picker.Item label="Venmo" value="Venmo" />
-                          <Picker.Item label="Cash App" value="Cash App" />
-                          <Picker.Item
-                            label="ETH Address"
-                            value="ETH Address"
-                          />
+                          <Picker.Item label="Venmo" value="venmo" />
+                          <Picker.Item label="Cash App" value="cashapp" />
+                          <Picker.Item label="ETH Address" value="eth" />
                         </Picker>
                       </View>
                       <View style={{flex: 1}}>
