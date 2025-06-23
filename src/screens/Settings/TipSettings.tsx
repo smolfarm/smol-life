@@ -6,7 +6,7 @@ import {Picker} from '@react-native-picker/picker'
 import {type NativeStackScreenProps} from '@react-navigation/native-stack'
 
 import {type CommonNavigatorParams} from '#/lib/routes/types'
-import {type TipMethod, type TipRecord, useTipQuery} from '#/state/queries/tips'
+import {type TipMethod, useTipQuery} from '#/state/queries/tips'
 import {useAgent, useSession} from '#/state/session'
 import * as Toast from '#/view/com/util/Toast'
 import {atoms as a, useTheme} from '#/alf'
@@ -25,63 +25,75 @@ export function TipSettingsScreen({}: Props) {
   const did = currentAccount?.did || ''
   const {data: existing, isLoading} = useTipQuery(did)
 
-  const defaultRecord: TipRecord = {methods: []}
-  const [record, setRecord] = useState<TipRecord>(defaultRecord)
+  const defaultMethods: TipMethod[] = []
+  const [methods, setMethods] = useState<TipMethod[]>(defaultMethods)
   const initialized = useRef(false)
 
   useEffect(() => {
     if (!initialized.current && existing) {
-      setRecord(existing)
+      setMethods(existing)
       initialized.current = true
     }
   }, [existing])
 
   const updateMethod = (idx: number, field: keyof TipMethod, value: string) => {
-    const methods = [...record.methods]
-    methods[idx] = {...methods[idx], [field]: value}
-    setRecord(prev => ({...prev, methods}))
+    const updated = [...methods]
+    updated[idx] = {...updated[idx], [field]: value}
+    setMethods(updated)
   }
 
   const addMethod = () => {
-    setRecord(prev => ({
-      ...prev,
-      methods: [...prev.methods, {type: 'Venmo', value: ''}],
-    }))
+    setMethods(prev => [...prev, {type: 'venmo', value: ''}])
   }
 
   const removeMethod = (idx: number) => {
-    setRecord(prev => ({
-      ...prev,
-      methods: prev.methods.filter((_, i) => i !== idx),
-    }))
+    setMethods(prev => prev.filter((_, i) => i !== idx))
   }
 
   const saveTips = async () => {
+    if (!did) {
+      Toast.show(_('No DID'))
+      return
+    }
     try {
-      if (!did) throw new Error('No DID')
       const listRes = await agent.com.atproto.repo.listRecords({
         repo: did,
         collection: 'life.smol.tipJar',
-        limit: 1,
+        limit: 100,
       })
-      if (listRes.data.records.length > 0) {
-        const rkey = (listRes.data.records[0] as any).rkey
-        await agent.com.atproto.repo.putRecord({
+      const existing = listRes.data.records as any[]
+      // Upsert existing or new
+      for (let i = 0; i < methods.length; i++) {
+        const method = methods[i]
+        if (existing[i]) {
+          const rkey = existing[i].rkey
+          await agent.com.atproto.repo.putRecord({
+            repo: did,
+            collection: 'life.smol.tipJar',
+            rkey,
+            record: method as unknown as {[key: string]: unknown},
+          })
+        } else {
+          await agent.com.atproto.repo.createRecord({
+            repo: did,
+            collection: 'life.smol.tipJar',
+            record: method as unknown as {[key: string]: unknown},
+          })
+        }
+      }
+      // Delete extras
+      for (let i = methods.length; i < existing.length; i++) {
+        const rkey = existing[i].rkey
+        await agent.com.atproto.repo.deleteRecord({
           repo: did,
           collection: 'life.smol.tipJar',
           rkey,
-          record: record as unknown as {[key: string]: unknown},
-        })
-      } else {
-        await agent.com.atproto.repo.createRecord({
-          repo: did,
-          collection: 'life.smol.tipJar',
-          record: record as unknown as {[key: string]: unknown},
         })
       }
-      Toast.show('Tips saved.')
-    } catch {
-      Toast.show('Failed to save tips.')
+      Toast.show(_('Tips saved.'))
+    } catch (error) {
+      console.error(error)
+      Toast.show(_('Failed to save tips.'))
     }
   }
 
@@ -105,7 +117,7 @@ export function TipSettingsScreen({}: Props) {
               </Text>
             ) : (
               <>
-                {record.methods.map((method, idx) => (
+                {methods.map((method, idx) => (
                   <SettingsList.Item key={idx} style={[a.mb_md]}>
                     <View
                       style={[a.flex_row, a.justify_between, a.align_center]}>
