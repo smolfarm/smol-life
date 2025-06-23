@@ -64,10 +64,12 @@ export function TipSettingsScreen({}: Props) {
       const existing = listRes.data.records as any[]
       // Delete all existing tip methods
       for (const rec of existing) {
+        // Derive rkey from record URI
+        const rkey = rec.uri.split('/').pop() as string
         await agent.com.atproto.repo.deleteRecord({
           repo: did,
           collection: 'life.smol.tipJar',
-          rkey: rec.rkey,
+          rkey,
         })
       }
 
