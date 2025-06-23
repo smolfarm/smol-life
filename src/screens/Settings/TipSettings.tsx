@@ -1,7 +1,8 @@
 import {useEffect, useRef, useState} from 'react'
-import {ScrollView, TextInput} from 'react-native'
+import {ScrollView, TextInput, View} from 'react-native'
 import {Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
+import {Picker} from '@react-native-picker/picker'
 import {type NativeStackScreenProps} from '@react-navigation/native-stack'
 
 import {type CommonNavigatorParams} from '#/lib/routes/types'
@@ -105,43 +106,49 @@ export function TipSettingsScreen({}: Props) {
             ) : (
               <>
                 {record.methods.map((method, idx) => (
-                  <SettingsList.Item key={idx} style={[a.flex_col, a.mb_md]}>
-                    <SettingsList.ItemText>
-                      <Trans>Type</Trans>
-                    </SettingsList.ItemText>
-                    <TextInput
-                      accessibilityLabel="Text input field"
-                      accessibilityHint={_('Tip type')}
-                      placeholder={_('Type (Venmo, Cash App, ETH Address)')}
-                      value={method.type}
-                      onChangeText={text =>
-                        updateMethod(idx, 'type', text as any)
-                      }
-                      style={[
-                        a.border,
-                        a.rounded_sm,
-                        theme.atoms.bg_contrast_25,
-                        a.px_md,
-                        a.py_sm,
-                      ]}
-                    />
-                    <SettingsList.ItemText style={a.mt_sm}>
-                      <Trans>Value</Trans>
-                    </SettingsList.ItemText>
-                    <TextInput
-                      accessibilityLabel="Text input field"
-                      accessibilityHint={_('Tip value')}
-                      placeholder={_('Account or address')}
-                      value={method.value}
-                      onChangeText={text => updateMethod(idx, 'value', text)}
-                      style={[
-                        a.border,
-                        a.rounded_sm,
-                        theme.atoms.bg_contrast_25,
-                        a.px_md,
-                        a.py_sm,
-                      ]}
-                    />
+                  <SettingsList.Item key={idx} style={[a.mb_md]}>
+                    <View
+                      style={[a.flex_row, a.justify_between, a.align_center]}>
+                      <View style={{flex: 1, marginRight: 8}}>
+                        <Picker
+                          selectedValue={method.type}
+                          onValueChange={value =>
+                            updateMethod(idx, 'type', value as any)
+                          }
+                          style={[
+                            a.border,
+                            a.rounded_sm,
+                            theme.atoms.bg_contrast_25,
+                            a.px_md,
+                            a.py_sm,
+                          ]}>
+                          <Picker.Item label="Venmo" value="Venmo" />
+                          <Picker.Item label="Cash App" value="Cash App" />
+                          <Picker.Item
+                            label="ETH Address"
+                            value="ETH Address"
+                          />
+                        </Picker>
+                      </View>
+                      <View style={{flex: 1}}>
+                        <TextInput
+                          accessibilityLabel="Text input field"
+                          accessibilityHint={_('Tip value')}
+                          placeholder={_('Account or address')}
+                          value={method.value}
+                          onChangeText={text =>
+                            updateMethod(idx, 'value', text)
+                          }
+                          style={[
+                            a.border,
+                            a.rounded_sm,
+                            theme.atoms.bg_contrast_25,
+                            a.px_md,
+                            a.py_sm,
+                          ]}
+                        />
+                      </View>
+                    </View>
                     <Button
                       label={_('Delete')}
                       variant="solid"
