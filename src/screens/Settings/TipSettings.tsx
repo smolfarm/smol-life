@@ -131,6 +131,7 @@ export function TipSettingsScreen({}: Props) {
                           ]}>
                           <Picker.Item label="Venmo" value="venmo" />
                           <Picker.Item label="Cash App" value="cashapp" />
+                          <Picker.Item label="PayPal" value="paypal" />
                           <Picker.Item label="ETH Address" value="eth" />
                         </Picker>
                       </View>

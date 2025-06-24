@@ -1,4 +1,5 @@
 import React, {memo} from 'react'
+import {Linking} from 'react-native'
 import {type AppBskyActorDefs} from '@atproto/api'
 import {msg, Trans} from '@lingui/macro'
 import {useLingui} from '@lingui/react'
@@ -21,6 +22,7 @@ import {
   useProfileFollowMutationQueue,
   useProfileMuteMutationQueue,
 } from '#/state/queries/profile'
+import {useTipQuery} from '#/state/queries/tips'
 import {useCanGoLive} from '#/state/service-config'
 import {useSession} from '#/state/session'
 import {EventStopper} from '#/view/com/util/EventStopper'
@@ -34,6 +36,7 @@ import {CircleX_Stroke2_Corner0_Rounded as CircleXIcon} from '#/components/icons
 import {Clipboard_Stroke2_Corner2_Rounded as ClipboardIcon} from '#/components/icons/Clipboard'
 import {DotGrid_Stroke2_Corner0_Rounded as Ellipsis} from '#/components/icons/DotGrid'
 import {Flag_Stroke2_Corner0_Rounded as Flag} from '#/components/icons/Flag'
+import {Gift1_Stroke2_Corner0_Rounded as TipIcon} from '#/components/icons/Gift1'
 import {ListSparkle_Stroke2_Corner0_Rounded as List} from '#/components/icons/ListSparkle'
 import {Live_Stroke2_Corner0_Rounded as LiveIcon} from '#/components/icons/Live'
 import {MagnifyingGlass2_Stroke2_Corner0_Rounded as SearchIcon} from '#/components/icons/MagnifyingGlass2'
@@ -88,6 +91,11 @@ let ProfileMenu = ({
   const blockPromptControl = Prompt.usePromptControl()
   const loggedOutWarningPromptControl = Prompt.usePromptControl()
   const goLiveDialogControl = useDialogControl()
+  const {data: tipMethods = []} = useTipQuery(profile.did)
+  const hasTipMethods = tipMethods.length > 0
+  const onPressTip = React.useCallback(() => {
+    Linking.openURL(`https://tipjar.smol.life/${profile.handle}`)
+  }, [profile.handle])
 
   const showLoggedOutWarning = React.useMemo(() => {
     return (
@@ -267,6 +275,17 @@ let ProfileMenu = ({
               </Menu.ItemText>
               <Menu.ItemIcon icon={SearchIcon} />
             </Menu.Item>
+            {hasTipMethods && (
+              <Menu.Item
+                testID="profileHeaderDropdownTipBtn"
+                label={_(msg`Send Tip`)}
+                onPress={onPressTip}>
+                <Menu.ItemText>
+                  <Trans>Send Tip</Trans>
+                </Menu.ItemText>
+                <Menu.ItemIcon icon={TipIcon} />
+              </Menu.Item>
+            )}
           </Menu.Group>
 
           {hasSession && (

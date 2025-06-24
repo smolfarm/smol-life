@@ -248,7 +248,7 @@ export function SettingsScreen({}: Props) {
           <SettingsList.Divider />
           <Text
             style={[a.pl_xl, a.pt_sm, a.text_sm, t.atoms.text_contrast_medium]}>
-            <Trans>Other ATProto Data</Trans>
+            <Trans>App Settings</Trans>
           </Text>
           <SettingsList.LinkItem
             to="/settings/profile-links"
