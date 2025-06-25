@@ -7,7 +7,7 @@ import {useLingui} from '@lingui/react'
 
 import {isIOS} from '#/platform/detection'
 import {EmptyState} from '#/view/com/util/EmptyState'
-import {type ListRef} from '#/view/com/util/List'
+import {List, type ListRef} from '#/view/com/util/List'
 import {atoms as a, useTheme} from '#/alf'
 import {Loader} from '#/components/Loader'
 import {ErrorState} from '../ErrorState'
@@ -90,39 +90,60 @@ export const ProfileGamesSection = React.forwardRef<
   const {currentStreak, gamesWon, averageScore} = stats as SkyrdleStats
 
   return (
-    <View style={[a.p_md, {minHeight}]}>
-      <Text style={[a.text_lg, t.atoms.text_contrast_high]}>
-        <Trans>Skyrdle Stats</Trans>
-      </Text>
-      <View style={[a.mt_md, a.flex_row, a.justify_between]}>
-        <View style={[a.align_center]}>
-          <Text style={t.atoms.text_contrast_medium}>
-            <Trans>Current Streak</Trans>
-          </Text>
-          <Text style={[a.text_md, t.atoms.text_contrast_high]}>
-            {' '}
-            {currentStreak}{' '}
-          </Text>
-        </View>
-        <View style={[a.align_center]}>
-          <Text style={t.atoms.text_contrast_medium}>
-            <Trans>Games Won</Trans>
-          </Text>
-          <Text style={[a.text_md, t.atoms.text_contrast_high]}>
-            {' '}
-            {gamesWon}{' '}
-          </Text>
-        </View>
-        <View style={[a.align_center]}>
-          <Text style={t.atoms.text_contrast_medium}>
-            <Trans>Average Score</Trans>
-          </Text>
-          <Text style={[a.text_md, t.atoms.text_contrast_high]}>
-            {' '}
-            {averageScore.toFixed(1)}{' '}
-          </Text>
-        </View>
-      </View>
+    <View style={{minHeight}}>
+      <List
+        ref={scrollElRef as ListRef}
+        data={gamesRecords}
+        keyExtractor={item => item.uri}
+        headerOffset={headerHeight}
+        renderItem={({item}) => {
+          const host = item.uri.split('://')[1]
+          const domain = host.split('.')[0]
+          const name = domain.charAt(0).toUpperCase() + domain.slice(1)
+          return (
+            <View style={[a.p_md]}>
+              <Text style={[a.text_lg, t.atoms.text_contrast_high]}>
+                {name}
+              </Text>
+              {name === 'Skyrdle' && (
+                <View style={[a.mt_md, a.flex_row, a.justify_between]}>
+                  <View style={[a.align_center]}>
+                    <Text style={t.atoms.text_contrast_medium}>
+                      <Trans>Current Streak</Trans>
+                    </Text>
+                    <Text style={[a.text_md, t.atoms.text_contrast_high]}>
+                      {currentStreak}
+                    </Text>
+                  </View>
+                  <View style={[a.align_center]}>
+                    <Text style={t.atoms.text_contrast_medium}>
+                      <Trans>Games Won</Trans>
+                    </Text>
+                    <Text style={[a.text_md, t.atoms.text_contrast_high]}>
+                      {gamesWon}
+                    </Text>
+                  </View>
+                  <View style={[a.align_center]}>
+                    <Text style={t.atoms.text_contrast_medium}>
+                      <Trans>Average Score</Trans>
+                    </Text>
+                    <Text style={[a.text_md, t.atoms.text_contrast_high]}>
+                      {averageScore.toFixed(1)}
+                    </Text>
+                  </View>
+                </View>
+              )}
+              <View
+                style={{
+                  height: 1,
+                  backgroundColor: t.atoms.text_contrast_low.color,
+                  marginTop: 8,
+                }}
+              />
+            </View>
+          )
+        }}
+      />
     </View>
   )
 })
