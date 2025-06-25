@@ -29,7 +29,7 @@ export function useInstallMutation() {
   const queryClient = useQueryClient()
   return useMutation<void, Error, {rkey: string; uri: string}>({
     mutationFn: async ({rkey, uri}) => {
-      await agent.api.com.atproto.repo.putRecord({
+      await agent.com.atproto.repo.putRecord({
         repo: currentAccount!.did,
         collection: 'life.smol.installed',
         rkey,

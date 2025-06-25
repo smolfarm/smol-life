@@ -35,7 +35,6 @@
     "production": {
       "extends": "base",
       "ios": {
-        "resourceClass": "large",
         "autoIncrement": true
       },
       "android": {

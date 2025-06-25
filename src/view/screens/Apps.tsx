@@ -94,8 +94,11 @@ function AppListItem({
             color="primary"
             onPress={() =>
               isInstalled
-                ? uninstallMutation.mutate({rkey: accountHandle})
-                : installMutation.mutate({rkey: accountHandle, uri: playUrl})
+                ? uninstallMutation.mutate({rkey: playUrl.split('/').pop()!})
+                : installMutation.mutate({
+                    rkey: playUrl.split('/').pop()!,
+                    uri: playUrl,
+                  })
             }
             size="small"
             style={[{paddingHorizontal: 16, borderRadius: 8}]}>
@@ -141,6 +144,20 @@ export function AppsScreen() {
       accountHandle: 'linkat.blue',
       did: 'did:plc:thpg3rkgfslxsgeekhkxgdyu',
       playUrl: 'https://linkat.blue',
+    },
+    {
+      title: 'sl resume',
+      description: 'Resume your smol life',
+      accountHandle: 'smol.life',
+      did: 'did:plc:dreeqyxu6y6rzxc5cym64y7v',
+      playUrl: 'https://resume.smol.life',
+    },
+    {
+      title: 'sl tipjar',
+      description: 'Tip jar for your smol life',
+      accountHandle: 'smol.life',
+      did: 'did:plc:dreeqyxu6y6rzxc5cym64y7v',
+      playUrl: 'https://tipjar.smol.life',
     },
   ]
   const installedApps = apps.filter(app =>
