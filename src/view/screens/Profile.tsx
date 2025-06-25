@@ -30,6 +30,7 @@ import {useLabelerInfoQuery} from '#/state/queries/labeler'
 import {resetProfilePostsQueries} from '#/state/queries/post-feed'
 import {useProfileQuery} from '#/state/queries/profile'
 import {useProfileLinksQuery} from '#/state/queries/profile-links'
+import {useProfileGamesQuery} from '#/state/queries/profileGames'
 import {useResolveDidQuery} from '#/state/queries/resolve-uri'
 import {useAgent, useSession} from '#/state/session'
 import {useSetMinimalShellMode} from '#/state/shell'
@@ -41,6 +42,7 @@ import {FAB} from '#/view/com/util/fab/FAB'
 import {type ListRef} from '#/view/com/util/List'
 import {ProfileHeader, ProfileHeaderLoading} from '#/screens/Profile/Header'
 import {ProfileFeedSection} from '#/screens/Profile/Sections/Feed'
+import {ProfileGamesSection} from '#/screens/Profile/Sections/Games'
 import {ProfileLabelsSection} from '#/screens/Profile/Sections/Labels'
 import {ProfileLinksSection} from '#/screens/Profile/Sections/Links'
 import {atoms as a} from '#/alf'
@@ -199,6 +201,7 @@ function ProfileScreenLoaded({
   const starterPacksSectionRef = React.useRef<SectionRef>(null)
   const labelsSectionRef = React.useRef<SectionRef>(null)
   const linksSectionRef = React.useRef<SectionRef>(null)
+  const gamesSectionRef = React.useRef<SectionRef>(null)
 
   useSetTitle(combinedDisplayName(profile))
 
@@ -227,6 +230,8 @@ function ProfileScreenLoaded({
   // subtract starterpack count from list count, since starterpacks are a type of list
   const listCount = (profile.associated?.lists || 0) - starterPackCount
   const showListsTab = hasSession && (isMe || listCount > 0)
+  const {data: gamesRecords = []} = useProfileGamesQuery(profile.did)
+  const showGamesTab = (gamesRecords.length ?? 0) > 0
 
   const sectionTitles = [
     showFiltersTab ? _(msg`Labels`) : undefined,
@@ -235,6 +240,7 @@ function ProfileScreenLoaded({
     showRepliesTab ? _(msg`Replies`) : undefined,
     showMediaTab ? _(msg`Media`) : undefined,
     showLinksTab ? _(msg`Links`) : undefined,
+    showGamesTab ? _(msg`Games`) : undefined,
     showVideosTab ? _(msg`Videos`) : undefined,
     showLikesTab ? _(msg`Likes`) : undefined,
     showFeedsTab ? _(msg`Feeds`) : undefined,
@@ -253,6 +259,7 @@ function ProfileScreenLoaded({
   let feedsIndex: number | null = null
   let starterPacksIndex: number | null = null
   let listsIndex: number | null = null
+  let gamesIndex: number | null = null
   if (showFiltersTab) {
     filtersIndex = nextIndex++
   }
@@ -266,6 +273,12 @@ function ProfileScreenLoaded({
     mediaIndex = nextIndex++
   }
   if (showLinksTab) {
+    linksIndex = nextIndex++
+  }
+  if (showGamesTab) {
+    gamesIndex = nextIndex++
+  }
+  if (showVideosTab) {
     linksIndex = nextIndex++
   }
   if (showVideosTab) {
@@ -296,6 +309,8 @@ function ProfileScreenLoaded({
         mediaSectionRef.current?.scrollToTop()
       } else if (index === linksIndex) {
         linksSectionRef.current?.scrollToTop()
+      } else if (index === gamesIndex) {
+        gamesSectionRef.current?.scrollToTop()
       } else if (index === videosIndex) {
         videosSectionRef.current?.scrollToTop()
       } else if (index === likesIndex) {
@@ -310,6 +325,7 @@ function ProfileScreenLoaded({
     },
     [
       filtersIndex,
+      gamesIndex,
       postsIndex,
       repliesIndex,
       mediaIndex,
@@ -455,6 +471,32 @@ function ProfileScreenLoaded({
             )
           : null}
         {showLinksTab
+          ? ({headerHeight, isFocused, scrollElRef}) => (
+              <ProfileLinksSection
+                ref={linksSectionRef}
+                linkCards={links ?? []}
+                loading={isLinksLoading}
+                error={linksError}
+                scrollElRef={scrollElRef as ListRef}
+                headerHeight={headerHeight}
+                isFocused={isFocused}
+                setScrollViewTag={setScrollViewTag}
+              />
+            )
+          : null}
+        {showGamesTab
+          ? ({headerHeight, isFocused, scrollElRef}) => (
+              <ProfileGamesSection
+                ref={gamesSectionRef}
+                did={profile.did}
+                scrollElRef={scrollElRef as ListRef}
+                headerHeight={headerHeight}
+                isFocused={isFocused}
+                setScrollViewTag={setScrollViewTag}
+              />
+            )
+          : null}
+        {showVideosTab
           ? ({headerHeight, isFocused, scrollElRef}) => (
               <ProfileLinksSection
                 ref={linksSectionRef}
