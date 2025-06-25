@@ -22,6 +22,7 @@ import {useProfileShadow} from '#/state/cache/profile-shadow'
 import * as persisted from '#/state/persisted'
 import {clearStorage} from '#/state/persisted'
 import {useModerationOpts} from '#/state/preferences/moderation-opts'
+import {useInstalledRecordsQuery} from '#/state/queries/installed'
 import {useDeleteActorDeclaration} from '#/state/queries/messages/actor-declaration'
 import {useProfileQuery, useProfilesQuery} from '#/state/queries/profile'
 import {type SessionAccount, useSession, useSessionApi} from '#/state/session'
@@ -74,6 +75,7 @@ export function SettingsScreen({}: Props) {
   const reducedMotion = useReducedMotion()
   const {logoutEveryAccount} = useSessionApi()
   const {accounts, currentAccount} = useSession()
+  const {data: installedRecords = []} = useInstalledRecordsQuery()
   const switchAccountControl = useDialogControl()
   const signOutPromptControl = Prompt.usePromptControl()
   const {data: profile} = useProfileQuery({did: currentAccount?.did})
@@ -246,29 +248,36 @@ export function SettingsScreen({}: Props) {
             style={[a.pl_xl, a.pt_sm, a.text_sm, t.atoms.text_contrast_medium]}>
             <Trans>App Settings</Trans>
           </Text>
-          <SettingsList.LinkItem
-            to="/settings/profile-links"
-            label={_(msg`Link Tree (Linkat.blue)`)}>
-            <SettingsList.ItemIcon icon={TreeIcon} />
-            <SettingsList.ItemText>
-              <Trans>Link Tree (Linkat.blue)</Trans>
-            </SettingsList.ItemText>
-          </SettingsList.LinkItem>
-
-          <SettingsList.LinkItem to="/settings/tips" label={_(msg`Tip Jar`)}>
-            <SettingsList.ItemIcon icon={HeartIcon} />
-            <SettingsList.ItemText>
-              <Trans>Tip Jar</Trans>
-            </SettingsList.ItemText>
-          </SettingsList.LinkItem>
-
-          <SettingsList.LinkItem to="/settings/cv" label={_(msg`Resume`)}>
-            <SettingsList.ItemIcon icon={CalendarIcon} />
-            <SettingsList.ItemText>
-              <Trans>Resume</Trans>
-            </SettingsList.ItemText>
-          </SettingsList.LinkItem>
-
+          {installedRecords.some(
+            ({uri}) => uri === 'https://tipjar.smol.life',
+          ) && (
+            <SettingsList.LinkItem to="/settings/tips" label={_(msg`Tip Jar`)}>
+              <SettingsList.ItemIcon icon={HeartIcon} />
+              <SettingsList.ItemText>
+                <Trans>Tip Jar</Trans>
+              </SettingsList.ItemText>
+            </SettingsList.LinkItem>
+          )}
+          {installedRecords.some(
+            ({uri}) => uri === 'https://resume.smol.life',
+          ) && (
+            <SettingsList.LinkItem to="/settings/cv" label={_(msg`Resume`)}>
+              <SettingsList.ItemIcon icon={CalendarIcon} />
+              <SettingsList.ItemText>
+                <Trans>Resume</Trans>
+              </SettingsList.ItemText>
+            </SettingsList.LinkItem>
+          )}
+          {installedRecords.some(({uri}) => uri === 'https://linkat.blue') && (
+            <SettingsList.LinkItem
+              to="/settings/profile-links"
+              label={_(msg`Linkat.blue`)}>
+              <SettingsList.ItemIcon icon={TreeIcon} />
+              <SettingsList.ItemText>
+                <Trans>Linkat.blue</Trans>
+              </SettingsList.ItemText>
+            </SettingsList.LinkItem>
+          )}
           <SettingsList.Divider />
           <SettingsList.PressableItem
             destructive
