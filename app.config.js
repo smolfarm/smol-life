@@ -41,7 +41,7 @@ module.exports = function (_config) {
       name: 'smol life',
       slug: 'smol-life',
       scheme: 'smol-life',
-      owner: 'blueskysocial',
+      owner: 'smolfarm',
       runtimeVersion: {
         policy: 'appVersion',
       },
@@ -112,7 +112,7 @@ module.exports = function (_config) {
         entitlements: {
           'com.apple.developer.kernel.increased-memory-limit': true,
           'com.apple.developer.kernel.extended-virtual-addressing': true,
-          'com.apple.security.application-groups': 'group.app.bsky',
+          'com.apple.security.application-groups': 'group.life.smol',
         },
         privacyManifests: {
           NSPrivacyAccessedAPITypes: [
@@ -366,26 +366,26 @@ module.exports = function (_config) {
               ios: {
                 appExtensions: [
                   {
-                    targetName: 'Share-with-Bluesky',
-                    bundleIdentifier: 'xyz.blueskyweb.app.Share-with-Bluesky',
+                    targetName: 'Share-with-smol-life',
+                    bundleIdentifier: 'life.smol.app.Share-with-smol-life',
                     entitlements: {
                       'com.apple.security.application-groups': [
-                        'group.app.bsky',
+                        'group.life.smol',
                       ],
                     },
                   },
                   {
-                    targetName: 'BlueskyNSE',
-                    bundleIdentifier: 'xyz.blueskyweb.app.BlueskyNSE',
+                    targetName: 'smol-life-nse',
+                    bundleIdentifier: 'life.smol.app.smol-life-nse',
                     entitlements: {
                       'com.apple.security.application-groups': [
-                        'group.app.bsky',
+                        'group.life.smol',
                       ],
                     },
                   },
                   {
                     targetName: 'BlueskyClip',
-                    bundleIdentifier: 'xyz.blueskyweb.app.AppClip',
+                    bundleIdentifier: 'life.smol.app.AppClip',
                   },
                 ],
               },

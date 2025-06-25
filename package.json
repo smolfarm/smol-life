@@ -1,9 +1,9 @@
 {
-  "name": "bsky.app",
-  "version": "1.104.0",
+  "name": "smol-life",
+  "version": "1.0.0",
   "private": true,
   "engines": {
-    "node": ">=20"
+    "node": ">=18"
   },
   "packageManager": "yarn@1.22.22",
   "expo": {
