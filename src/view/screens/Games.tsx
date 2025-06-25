@@ -93,8 +93,11 @@ function GameListItem({
             color="primary"
             onPress={() =>
               isInstalled
-                ? uninstallMutation.mutate({rkey: accountHandle})
-                : installMutation.mutate({rkey: accountHandle, uri: playUrl})
+                ? uninstallMutation.mutate({rkey: playUrl.split('/').pop()!})
+                : installMutation.mutate({
+                    rkey: playUrl.split('/').pop()!,
+                    uri: playUrl,
+                  })
             }
             size="small"
             style={[{paddingHorizontal: 16, borderRadius: 8}]}>
