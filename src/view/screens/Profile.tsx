@@ -278,9 +278,7 @@ function ProfileScreenLoaded({
   if (showGamesTab) {
     gamesIndex = nextIndex++
   }
-  if (showVideosTab) {
-    linksIndex = nextIndex++
-  }
+
   if (showVideosTab) {
     videosIndex = nextIndex++
   }
@@ -489,20 +487,6 @@ function ProfileScreenLoaded({
               <ProfileGamesSection
                 ref={gamesSectionRef}
                 did={profile.did}
-                scrollElRef={scrollElRef as ListRef}
-                headerHeight={headerHeight}
-                isFocused={isFocused}
-                setScrollViewTag={setScrollViewTag}
-              />
-            )
-          : null}
-        {showVideosTab
-          ? ({headerHeight, isFocused, scrollElRef}) => (
-              <ProfileLinksSection
-                ref={linksSectionRef}
-                linkCards={links ?? []}
-                loading={isLinksLoading}
-                error={linksError}
                 scrollElRef={scrollElRef as ListRef}
                 headerHeight={headerHeight}
                 isFocused={isFocused}
