@@ -143,6 +143,13 @@ export function GamesScreen() {
       playUrl: 'https://skyrdle.com',
     },
     {
+      title: 'Eggsweeper',
+      description: 'Clear the field without stepping on eggs!',
+      accountHandle: 'eggsweeper.com',
+      did: 'did:plc:zxquqrbyya2daxow7z4quihb',
+      playUrl: 'https://eggsweeper.com',
+    },
+    {
       title: '2048',
       description: 'Combine tiles to try to reach a value of 2048!',
       accountHandle: '2048.blue',

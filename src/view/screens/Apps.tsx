@@ -147,14 +147,14 @@ export function AppsScreen() {
     },
     {
       title: 'sl resume',
-      description: 'Resume your smol life',
+      description: 'Decentralized resume.',
       accountHandle: 'smol.life',
       did: 'did:plc:dreeqyxu6y6rzxc5cym64y7v',
       playUrl: 'https://resume.smol.life',
     },
     {
       title: 'sl tipjar',
-      description: 'Tip jar for your smol life',
+      description: 'Decentralized tip jar.',
       accountHandle: 'smol.life',
       did: 'did:plc:dreeqyxu6y6rzxc5cym64y7v',
       playUrl: 'https://tipjar.smol.life',
