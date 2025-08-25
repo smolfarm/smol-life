@@ -1,23 +1,27 @@
-import React, {useContext, useMemo} from 'react'
+import {useContext, useMemo} from 'react'
 import {
   type GestureResponderEvent,
   type StyleProp,
   View,
   type ViewStyle,
 } from 'react-native'
+import type React from 'react'
 
 import {HITSLOP_10} from '#/lib/constants'
+import {atoms as a, useTheme, type ViewStyleProp} from '#/alf'
 import {atoms as a, useTheme, type ViewStyleProp} from '#/alf'
 import * as Button from '#/components/Button'
 import {ChevronRight_Stroke2_Corner0_Rounded as ChevronRightIcon} from '#/components/icons/Chevron'
 import {Link, type LinkProps} from '#/components/Link'
+import {Link, type LinkProps} from '#/components/Link'
 import {createPortalGroup} from '#/components/Portal'
 import {Text} from '#/components/Typography'
 
-const ItemContext = React.createContext({
+const ItemContext = createContext({
   destructive: false,
   withinGroup: false,
 })
+ItemContext.displayName = 'SettingsListItemContext'
 
 const Portal = createPortalGroup()
 
@@ -96,7 +100,7 @@ export function Item({
         a.px_xl,
         a.py_sm,
         a.align_center,
-        a.gap_md,
+        a.gap_sm,
         a.w_full,
         a.flex_row,
         {flexWrap: 'wrap'},
@@ -106,9 +110,9 @@ export function Item({
             // existing padding
             a.pl_xl.paddingLeft +
             // icon
-            28 +
+            24 +
             // gap
-            a.gap_md.gap,
+            a.gap_sm.gap,
         },
         style,
       ]}>
@@ -125,7 +129,7 @@ export function LinkItem({
   contentContainerStyle,
   chevronColor,
   ...props
-}: LinkProps & {
+}: Omit<LinkProps, Button.UninheritableButtonProps> & {
   contentContainerStyle?: StyleProp<ViewStyle>
   destructive?: boolean
   chevronColor?: string
@@ -133,7 +137,7 @@ export function LinkItem({
   const t = useTheme()
 
   return (
-    <Link color="secondary" {...props}>
+    <Link {...props}>
       {args => (
         <Item
           destructive={destructive}
@@ -155,7 +159,7 @@ export function PressableItem({
   contentContainerStyle,
   hoverStyle,
   ...props
-}: Button.ButtonProps & {
+}: Omit<Button.ButtonProps, Button.UninheritableButtonProps> & {
   contentContainerStyle?: StyleProp<ViewStyle>
   destructive?: boolean
 }) {
@@ -181,7 +185,7 @@ export function PressableItem({
 
 export function ItemIcon({
   icon: Comp,
-  size = 'xl',
+  size = 'lg',
   color: colorProp,
 }: Omit<React.ComponentProps<typeof Button.ButtonIcon>, 'position'> & {
   color?: string

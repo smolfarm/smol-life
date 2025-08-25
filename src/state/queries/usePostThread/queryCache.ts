@@ -9,6 +9,10 @@ import {
 } from '@atproto/api'
 import {type QueryClient} from '@tanstack/react-query'
 
+import {
+  dangerousGetPostShadow,
+  updatePostShadow,
+} from '#/state/cache/post-shadow'
 import {findAllPostsInQueryData as findAllPostsInExploreFeedPreviewsQueryData} from '#/state/queries/explore-feed-previews'
 import {findAllPostsInQueryData as findAllPostsInNotifsQueryData} from '#/state/queries/notifications/feed'
 import {findAllPostsInQueryData as findAllPostsInFeedQueryData} from '#/state/queries/post-feed'
@@ -77,53 +81,73 @@ export function createCacheMutator({
 
       function mutator<T>(thread: ApiThreadItem[]): T[] {
         for (let i = 0; i < thread.length; i++) {
-          const existingParent = thread[i]
-          if (!AppBskyUnspeccedDefs.isThreadItemPost(existingParent.value))
-            continue
-          if (existingParent.uri !== parentUri) continue
+          const parent = thread[i]
+
+          if (!AppBskyUnspeccedDefs.isThreadItemPost(parent.value)) continue
+          if (parent.uri !== parentUri) continue
 
           /*
            * Update parent data
            */
-          existingParent.value.post = {
-            ...existingParent.value.post,
-            replyCount: (existingParent.value.post.replyCount || 0) + 1,
-          }
+          const shadow = dangerousGetPostShadow(parent.value.post)
+          const prevOptimisticCount = shadow?.optimisticReplyCount
+          const prevReplyCount = parent.value.post.replyCount
+          // prefer optimistic count, if we already have some
+          const currentReplyCount =
+            (prevOptimisticCount ?? prevReplyCount ?? 0) + 1
 
-          const opDid = getRootPostAtUri(existingParent.value.post)?.host
-          const nextItem = thread.at(i + 1)
-          const isReplyToRoot = existingParent.depth === 0
+          /*
+           * We must update the value in the query cache in order for thread
+           * traversal to properly compute required metadata.
+           */
+          parent.value.post.replyCount = currentReplyCount
+
+          /**
+           * Additionally, we need to update the post shadow to keep track of
+           * these new values, since mutating the post object above does not
+           * cause a re-render.
+           */
+          updatePostShadow(queryClient, parent.value.post.uri, {
+            optimisticReplyCount: currentReplyCount,
+          })
+
+          const opDid = getRootPostAtUri(parent.value.post)?.host
+          const nextPreexistingItem = thread.at(i + 1)
           const isEndOfReplyChain =
-            !nextItem || nextItem.depth <= existingParent.depth
-          const firstReply = replies.at(0)
+            !nextPreexistingItem || nextPreexistingItem.depth <= parent.depth
+          const isParentRoot = parent.depth === 0
+          const isParentBelowRoot = parent.depth > 0
+          const optimisticReply = replies.at(0)
           const opIsReplier = AppBskyUnspeccedDefs.isThreadItemPost(
-            firstReply?.value,
+            optimisticReply?.value,
           )
-            ? opDid === firstReply.value.post.author.did
+            ? opDid === optimisticReply.value.post.author.did
             : false
 
           /*
-           * Always insert replies if the following conditions are met.
+           * Always insert replies if the following conditions are met. Max
+           * depth checks are handled below.
            */
-          const shouldAlwaysInsertReplies =
-            isReplyToRoot ||
-            params.view === 'tree' ||
+          const canAlwaysInsertReplies =
+            isParentRoot ||
+            (params.view === 'tree' && isParentBelowRoot) ||
             (params.view === 'linear' && isEndOfReplyChain)
           /*
-           * Maybe insert replies if the replier is the OP and certain conditions are met
+           * Maybe insert replies if we're in linear view, the replier is the
+           * OP, and certain conditions are met
            */
           const shouldReplaceWithOPReplies =
-            !isReplyToRoot && params.view === 'linear' && opIsReplier
+            params.view === 'linear' && opIsReplier && isParentBelowRoot
 
-          if (shouldAlwaysInsertReplies || shouldReplaceWithOPReplies) {
-            const branch = getBranch(thread, i, existingParent.depth)
+          if (canAlwaysInsertReplies || shouldReplaceWithOPReplies) {
+            const branch = getBranch(thread, i, parent.depth)
             /*
              * OP insertions replace other replies _in linear view_.
              */
             const itemsToRemove = shouldReplaceWithOPReplies ? branch.length : 0
             const itemsToInsert = replies
               .map((r, ri) => {
-                r.depth = existingParent.depth + 1 + ri
+                r.depth = parent.depth + 1 + ri
                 return r
               })
               .filter(r => {

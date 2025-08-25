@@ -45,7 +45,7 @@ const CHILDREN_CHUNK_SIZE = 50
 export function PostThread({uri}: {uri: string}) {
   const {gtMobile} = useBreakpoints()
   const {hasSession} = useSession()
-  const initialNumToRender = useInitialNumToRender() // TODO
+  const initialNumToRender = useInitialNumToRender()
   const {height: windowHeight} = useWindowDimensions()
   const anchorPostSource = useUnstablePostSource(uri)
   const feedFeedback = useFeedFeedback(anchorPostSource?.feed, hasSession)
@@ -91,6 +91,7 @@ export function PostThread({uri}: {uri: string}) {
         author: post.author,
         embed: post.embed,
         moderation: anchor.moderation,
+        langs: post.record.langs,
       },
       onPostSuccess: optimisticOnPostReply,
     })
@@ -522,7 +523,7 @@ export function PostThread({uri}: {uri: string}) {
           })}
           onStartReached={onStartReached}
           onEndReached={onEndReached}
-          onEndReachedThreshold={2}
+          onEndReachedThreshold={4}
           onStartReachedThreshold={1}
           /**
            * NATIVE ONLY
@@ -530,6 +531,7 @@ export function PostThread({uri}: {uri: string}) {
            */
           maintainVisibleContentPosition={{minIndexForVisible: 0}}
           desktopFixedHeight
+          sideBorders={false}
           ListFooterComponent={
             <ListFooter
               /*
@@ -551,8 +553,18 @@ export function PostThread({uri}: {uri: string}) {
             />
           }
           initialNumToRender={initialNumToRender}
-          windowSize={11}
-          sideBorders={false}
+          /**
+           * Default: 21
+           */
+          windowSize={7}
+          /**
+           * Default: 10
+           */
+          maxToRenderPerBatch={5}
+          /**
+           * Default: 50
+           */
+          updateCellsBatchingPeriod={100}
         />
       )}
 

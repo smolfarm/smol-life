@@ -1,11 +1,11 @@
-import React, {
+import {
   useCallback,
   useImperativeHandle,
   useMemo,
   useRef,
   useState,
 } from 'react'
-import {TextInput, View} from 'react-native'
+import {type TextInput, View} from 'react-native'
 import {useWindowDimensions} from 'react-native'
 import {Image} from 'expo-image'
 import {msg, Trans} from '@lingui/macro'
@@ -15,13 +15,14 @@ import {logEvent} from '#/lib/statsig/statsig'
 import {cleanError} from '#/lib/strings/errors'
 import {isWeb} from '#/platform/detection'
 import {
-  Gif,
+  type Gif,
+  tenorUrlToBskyGifUrl,
   useFeaturedGifsQuery,
   useGifSearchQuery,
 } from '#/state/queries/tenor'
 import {ErrorScreen} from '#/view/com/util/error/ErrorScreen'
 import {ErrorBoundary} from '#/view/com/util/ErrorBoundary'
-import {ListMethods} from '#/view/com/util/List'
+import {type ListMethods} from '#/view/com/util/List'
 import {atoms as a, ios, native, useBreakpoints, useTheme, web} from '#/alf'
 import {Button, ButtonIcon, ButtonText} from '#/components/Button'
 import * as Dialog from '#/components/Dialog'
@@ -118,7 +119,7 @@ function GifList({
     [onSelectGif],
   )
 
-  const onEndReached = React.useCallback(() => {
+  const onEndReached = useCallback(() => {
     if (isFetchingNextPage || !hasNextPage || error) return
     fetchNextPage()
   }, [isFetchingNextPage, hasNextPage, error, fetchNextPage])
@@ -171,7 +172,7 @@ function GifList({
           </Button>
         )}
 
-        <TextField.Root>
+        <TextField.Root style={[!gtMobile && isWeb && a.flex_1]}>
           <TextField.Icon icon={Search} />
           <TextField.Input
             label={_(msg`Search GIFs`)}
@@ -205,11 +206,9 @@ function GifList({
         renderItem={renderItem}
         numColumns={gtMobile ? 3 : 2}
         columnWrapperStyle={[a.gap_sm]}
-        contentContainerStyle={[
-          native([a.px_xl, {minHeight: height}]),
-          web(a.h_full_vh),
-        ]}
-        style={[web(a.h_full_vh)]}
+        contentContainerStyle={[native([a.px_xl, {minHeight: height}])]}
+        webInnerStyle={[web({minHeight: '80vh'})]}
+        webInnerContentContainerStyle={[web(a.pb_0)]}
         ListHeaderComponent={
           <>
             {listHeader}
@@ -316,7 +315,7 @@ export function GifPreview({
             t.atoms.bg_contrast_25,
           ]}
           source={{
-            uri: gif.media_formats.tinygif.url,
+            uri: tenorUrlToBskyGifUrl(gif.media_formats.tinygif.url),
           }}
           contentFit="cover"
           accessibilityLabel={gif.title}

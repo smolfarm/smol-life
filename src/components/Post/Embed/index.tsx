@@ -87,14 +87,18 @@ function MediaEmbed({
   switch (embed.type) {
     case 'images': {
       return (
-        <ContentHider modui={rest.moderation?.ui('contentMedia')}>
+        <ContentHider
+          modui={rest.moderation?.ui('contentMedia')}
+          activeStyle={[a.mt_sm]}>
           <ImageEmbed embed={embed} {...rest} />
         </ContentHider>
       )
     }
     case 'link': {
       return (
-        <ContentHider modui={rest.moderation?.ui('contentMedia')}>
+        <ContentHider
+          modui={rest.moderation?.ui('contentMedia')}
+          activeStyle={[a.mt_sm]}>
           <ExternalEmbed
             link={embed.view.external}
             onOpen={rest.onOpen}
@@ -105,7 +109,9 @@ function MediaEmbed({
     }
     case 'video': {
       return (
-        <ContentHider modui={rest.moderation?.ui('contentMedia')}>
+        <ContentHider
+          modui={rest.moderation?.ui('contentMedia')}
+          activeStyle={[a.mt_sm]}>
           <VideoEmbed embed={embed.view} />
         </ContentHider>
       )
@@ -268,64 +274,60 @@ export function QuoteEmbed({
   const [hover, setHover] = React.useState(false)
   return (
     <View
-      onPointerEnter={() => {
-        setHover(true)
-      }}
-      onPointerLeave={() => {
-        setHover(false)
-      }}>
+      style={[a.mt_sm]}
+      onPointerEnter={() => setHover(true)}
+      onPointerLeave={() => setHover(false)}>
       <ContentHider
         modui={moderation?.ui('contentList')}
-        style={[
-          a.rounded_md,
-          a.p_md,
-          a.mt_sm,
-          a.border,
-          t.atoms.border_contrast_low,
-          style,
-        ]}
+        style={[a.rounded_md, a.border, t.atoms.border_contrast_low, style]}
+        activeStyle={[a.p_md, a.pt_sm]}
         childContainerStyle={[a.pt_sm]}>
-        <SubtleWebHover hover={hover} />
-        <Link
-          hoverStyle={{borderColor: pal.colors.borderLinkHover}}
-          href={itemHref}
-          title={itemTitle}
-          onBeforePress={onBeforePress}>
-          <View pointerEvents="none">
-            <PostMeta
-              author={quote.author}
-              moderation={moderation}
-              showAvatar
-              postHref={itemHref}
-              timestamp={quote.indexedAt}
-            />
-          </View>
-          {moderation ? (
-            <PostAlerts
-              modui={moderation.ui('contentView')}
-              style={[a.py_xs]}
-            />
-          ) : null}
-          {richText ? (
-            <RichText
-              value={richText}
-              style={a.text_md}
-              numberOfLines={20}
-              disableLinks
-            />
-          ) : null}
-          {quote.embed && (
-            <Embed
-              embed={quote.embed}
-              moderation={moderation}
-              isWithinQuote={parentIsWithinQuote ?? true}
-              // already within quote? override nested
-              allowNestedQuotes={
-                parentIsWithinQuote ? false : parentAllowNestedQuotes
-              }
-            />
-          )}
-        </Link>
+        {({active}) => (
+          <>
+            {!active && <SubtleWebHover hover={hover} style={[a.rounded_md]} />}
+            <Link
+              style={[!active && a.p_md]}
+              hoverStyle={{borderColor: pal.colors.borderLinkHover}}
+              href={itemHref}
+              title={itemTitle}
+              onBeforePress={onBeforePress}>
+              <View pointerEvents="none">
+                <PostMeta
+                  author={quote.author}
+                  moderation={moderation}
+                  showAvatar
+                  postHref={itemHref}
+                  timestamp={quote.indexedAt}
+                />
+              </View>
+              {moderation ? (
+                <PostAlerts
+                  modui={moderation.ui('contentView')}
+                  style={[a.py_xs]}
+                />
+              ) : null}
+              {richText ? (
+                <RichText
+                  value={richText}
+                  style={a.text_md}
+                  numberOfLines={20}
+                  disableLinks
+                />
+              ) : null}
+              {quote.embed && (
+                <Embed
+                  embed={quote.embed}
+                  moderation={moderation}
+                  isWithinQuote={parentIsWithinQuote ?? true}
+                  // already within quote? override nested
+                  allowNestedQuotes={
+                    parentIsWithinQuote ? false : parentAllowNestedQuotes
+                  }
+                />
+              )}
+            </Link>
+          </>
+        )}
       </ContentHider>
     </View>
   )

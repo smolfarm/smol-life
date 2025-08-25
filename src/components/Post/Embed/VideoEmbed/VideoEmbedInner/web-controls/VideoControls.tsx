@@ -317,8 +317,8 @@ export function Controls({
           !focused
             ? msg`Unmute video`
             : playing
-            ? msg`Pause video`
-            : msg`Play video`,
+              ? msg`Pause video`
+              : msg`Play video`,
         )}
         accessibilityHint=""
         style={[
@@ -373,13 +373,15 @@ export function Controls({
             onPress={onPressPlayPause}
           />
           <View style={a.flex_1} />
-          <Text
-            style={[
-              a.px_xs,
-              {color: t.palette.white, fontVariant: ['tabular-nums']},
-            ]}>
-            {formatTime(currentTime)} / {formatTime(duration)}
-          </Text>
+          {Math.round(duration) > 0 && (
+            <Text
+              style={[
+                a.px_xs,
+                {color: t.palette.white, fontVariant: ['tabular-nums']},
+              ]}>
+              {formatTime(currentTime)} / {formatTime(duration)}
+            </Text>
+          )}
           {hasSubtitleTrack && (
             <ControlButton
               active={subtitlesEnabled}
